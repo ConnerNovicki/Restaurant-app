@@ -1,0 +1,45 @@
+generator photon {
+  provider = "photonjs"
+}
+
+datasource db {
+  provider = "sqlite"
+  url = "***"
+}
+
+enum Role {
+  USER
+  OWNER
+  ADMIN
+}
+
+model User {
+  id               Int          @id
+  username         String
+  role             Role         @default(USER)
+  ownedRestaurants Restaurant[]
+  authoredReviews  Review[]
+  authoredComments Comment[]
+  createdAt        DateTime     @default(now())
+}
+
+model Restaurant {
+  id      Int      @id
+  creator User
+  reviews Review[]
+}
+
+model Review {
+  id       Int       @id
+  rating   Int
+  restaurant Restaurant
+  author   User
+  comments Comment[]
+}
+
+model Comment {
+  id        Int      @id
+  author    User
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
