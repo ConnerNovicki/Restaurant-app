@@ -1,22 +1,23 @@
 import React from 'react'
 import {
-  BrowserRouter as Router,
   Switch,
   Route,
-  Link
 } from 'react-router-dom';
 import CreateOrLogin from './CreateOrLogin'
 import Home from './Home';
 import Owner from './Owner'
+import LogoutButton from '../components/LogoutButton';
 
 const Routes = () => {
   return (
     <Switch>
       <Route path="/owner">
         <Owner />
+        <LogoutButton />
       </Route>
       <Route path="/home">
         <Home />
+        <LogoutButton />
       </Route>
       <Route path="/">
         <CreateOrLogin />

@@ -2,19 +2,23 @@ import { ActionTypes } from './actions';
 
 export interface Action<TData> {
   type: ActionTypes;
-  payload?: {
-    data: TData;
-  };
+  payload?: any
 }
 
 export interface State {
   userRestaurants: any;
   restaurants: any;
+  user: {
+    id: string;
+    role: 'OWNER' | 'ADMIN' | 'USER';
+    username: string;
+  };
 }
 
 export const initialState: State = {
   userRestaurants: [],
   restaurants: [],
+  user: null,
 };
 
 export default (state: State = initialState, action: Action<any>): State => {
@@ -24,6 +28,9 @@ export default (state: State = initialState, action: Action<any>): State => {
     }
     case ActionTypes.SAVE_RESTAURANTS: {
       return { ...state, restaurants: action.payload };
+    }
+    case ActionTypes.SAVE_USER: {
+      return { ...state, user: action.payload };
     }
     default:
       return state;

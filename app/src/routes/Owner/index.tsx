@@ -1,49 +1,27 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { IStoreContext, StoreContext } from '../../lib/context'
-import api from '../../lib/api';
-import { Actions } from '../../lib/actions';
 import { Button, Modal } from 'antd';
 import AddRestaurant from './AddRestaurant';
-
-interface Author {
-  username: string;
-}
-
-interface Comment {
-  id: string;
-  author: Author;
-}
-
-interface RestaurantReview {
-  id: string;
-  author: Author;
-  rating: number;
-  comments: Comment[];
-}
-
-interface RestaurantDetailed {
-  id: string;
-  reviews: RestaurantReview[];
-}
+import useApiClient from '../../lib/useApiClient';
 
 const Owner = () => {
+  const apiClient = useApiClient();
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const { state, dispatch } = useContext<IStoreContext>(StoreContext);
-  
+  const { state: { userRestaurants } } = useContext<IStoreContext>(StoreContext);
+
   useEffect(() => {
-    api.userRestaurants().then((res) => {
-      dispatch(Actions.saveUserRestaurants(res))
-    })
-  }, [dispatch]);
+    apiClient.fetchUserRestaurants();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
       <div>
         <h2>Welcome Back Owner</h2>
-        {!!state.userRestaurants.length
+        {!!userRestaurants.length
           ? (
             <div>
-              {state.userRestaurants.map(restaurant => (
+              {userRestaurants.map(restaurant => (
                 <div>{restaurant.name}</div>
               ))}
             </div>

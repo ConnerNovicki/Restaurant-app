@@ -25,10 +25,12 @@ const Login = ({ setIsCreating, history }) => {
     <Card>
       <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
         <Form onSubmit={handleOnSubmit}>
-          <h2>Welcome to Food</h2>
+          <h2>Welcome to the Restaurants App!</h2>
+          <label>User name</label>
           <Input value={username} onChange={e => setUsername(e.target.value)} />
-          <Input value={password} onChange={e => setPassword(e.target.value)} />
-          <Button htmlType="submit">Submit!</Button>
+          <label>Password</label>
+          <Input.Password value={password} onChange={e => setPassword(e.target.value)} />
+          <Button htmlType="submit">Login</Button>
         </Form>
         <Button type="link" onClick={setIsCreating}>Don't have an account?</Button>
       </div>

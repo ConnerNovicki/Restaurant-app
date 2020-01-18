@@ -1,24 +1,20 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 import { Form, Input, Button } from 'antd'
-import api from '../../lib/api';
-import { IStoreContext, StoreContext } from '../../lib/context';
-import { Actions } from '../../lib/actions';
+import useApiClient from '../../lib/useApiClient';
 
 const AddRestaurant = ({ onClose }) => {
-  const { dispatch } = useContext<IStoreContext>(StoreContext);
+  const apiClient = useApiClient();
   const [name, setName] = useState('');
 
   const handleOnSubmit = (evt) => {
     evt.preventDefault();
-    api.addUserRestaurant({ name })
-      .then((res) => {
-        api.userRestaurants().then((res) => {
-          dispatch(Actions.saveUserRestaurants(res))
-        })
 
+    apiClient.addUserRestaurant({ name })
+      .then(() => {
+        apiClient.fetchUserRestaurants();
         setName('');
         onClose();
-      })
+      });
   }
 
   return (

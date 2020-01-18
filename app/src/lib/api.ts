@@ -1,7 +1,7 @@
 // const url = process.env.API_URL;
 const url = 'http://localhost:4000'
 
-const makeRequest = (path: string, method: 'GET' | 'POST', body?: any) => {
+export const makeRequest = (path: string, method: 'GET' | 'POST', body?: any) => {
   const token = localStorage.getItem('token');
 
   const options: RequestInit = {
@@ -17,17 +17,17 @@ const makeRequest = (path: string, method: 'GET' | 'POST', body?: any) => {
   return fetch(`${url}${path}`, options).then(res => res.json());
 }
 
-interface LoginBody {
+export interface LoginBody {
   username: string;
   password: string;
 }
 
-interface CreateUserBody {
+export interface CreateUserBody {
   role: string;
   username: string;
 }
 
-interface AddUserRestaurantBody {
+export interface AddUserRestaurantBody {
   name: string;
 }
 
