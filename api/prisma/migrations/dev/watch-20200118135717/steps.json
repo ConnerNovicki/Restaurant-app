@@ -1,0 +1,17 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "DeleteField",
+      "model": "Restaurant",
+      "field": "dateOfVisit"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Review",
+      "field": "dateOfVisit",
+      "type": "DateTime",
+      "arity": "Required"
+    }
+  ]
+}

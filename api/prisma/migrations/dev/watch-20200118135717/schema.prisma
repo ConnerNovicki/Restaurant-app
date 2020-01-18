@@ -4,7 +4,7 @@ generator photon {
 
 datasource db {
   provider = "sqlite"
-  url      = "file:dev.db"
+  url = "***"
 }
 
 enum Role {
@@ -25,7 +25,6 @@ model User {
 
 model Restaurant {
   id        String   @default(cuid()) @id
-  name      String
   owner     User
   reviews   Review[]
   createdAt DateTime @default(now())
