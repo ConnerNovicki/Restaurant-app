@@ -22,15 +22,16 @@ export default () => {
     } else {
       history.push('/home');
     }
+    return res;
   }
 
-  const saveUser = (res) => {
+  const saveUserFromAuthPayload = (res) => {
     dispatch(Actions.saveUser(res.user))
   }
 
   return {
     fetchAllRestaurants: () => {
-      return makeRequest('/user/restaurants', 'GET')
+      return makeRequest('/restaurants', 'GET')
         .then(res => {
           dispatch(Actions.saveRestaurants(res));
         });
@@ -45,16 +46,22 @@ export default () => {
       return makeRequest('/login', 'POST', body)
         .then(saveTokenInLocalStorage)
         .then(navigateAfterLogin)
-        .then(saveUser)
+        .then(saveUserFromAuthPayload)
     },
     createUser: (body: CreateUserBody) => {
       return makeRequest('/user', 'POST', body)
         .then(saveTokenInLocalStorage)
         .then(navigateAfterLogin)
-        .then(saveUser)
+        .then(saveUserFromAuthPayload)
     },
     addUserRestaurant: (body: AddUserRestaurantBody) => {
       return makeRequest('/user/restaurant', 'POST', body)
+    },
+    fetchUser: () => {
+      return makeRequest('/user', 'GET')
+        .then(res => {
+          dispatch(Actions.saveUser(res));
+        });
     }
   }
 };

@@ -30,24 +30,3 @@ export interface CreateUserBody {
 export interface AddUserRestaurantBody {
   name: string;
 }
-
-const api = {
-  login: (body: LoginBody) => makeRequest('/login', 'POST', body)
-    .then((res) => {
-      const { token } = res;
-      localStorage.setItem('token', token);
-      return res;
-    }),
-
-  createUser: (body: CreateUserBody) => makeRequest('/user', 'POST', body)
-    .then((res) => {
-      const { token } = res;
-      localStorage.setItem('token', token);
-      return res;
-    }),
-  userRestaurants: () => makeRequest('/user/restaurants', 'GET'),
-  addUserRestaurant: (body: AddUserRestaurantBody) => makeRequest('/user/restaurant', 'POST', body), 
-  allRestaurants: () => makeRequest('/restaurants', 'GET'),
-}
-
-export default api;

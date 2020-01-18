@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { Button, Form, Input, message, Select } from 'antd'
-import api from '../../lib/api'
-import { withRouter } from 'react-router-dom';
+import useApiClient from '../../lib/useApiClient';
 
-const CreateAccount = ({ history, setIsCreating }) => {
+const CreateAccount = ({ setIsCreating }) => {
+  const apiClient = useApiClient();
   const [role, setRole] = useState<string>('USER');
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -12,14 +12,7 @@ const CreateAccount = ({ history, setIsCreating }) => {
   const handleOnSubmit = (evt) => {
     evt.preventDefault()
 
-    api.createUser({ username, role })
-      .then((res) => {
-        if (res.user.role === 'OWNER') {
-          history.push('/owner');
-        } else {
-          history.push('/home');
-        }
-      })
+    apiClient.createUser({ username, role })
       .catch(err => message.error(err.message));
   }
 
@@ -46,5 +39,4 @@ const CreateAccount = ({ history, setIsCreating }) => {
   )
 }
 
-// @ts-ignore
-export default withRouter(CreateAccount);
+export default CreateAccount;

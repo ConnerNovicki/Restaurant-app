@@ -22,6 +22,7 @@ export const initialState: State = {
 };
 
 export default (state: State = initialState, action: Action<any>): State => {
+  console.log(state, action);
   switch (action.type) {
     case ActionTypes.SAVE_USER_RESTAURANTS: {
       return { ...state, userRestaurants: action.payload };

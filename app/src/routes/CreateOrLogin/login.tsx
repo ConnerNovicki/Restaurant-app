@@ -1,23 +1,16 @@
 import React, { useState } from 'react'
 import { Input, Button, Card, Form, message } from 'antd';
-import api from '../../lib/api'
-import { withRouter } from 'react-router-dom';
+import useApiClient from '../../lib/useApiClient';
 
-const Login = ({ setIsCreating, history }) => {
+const Login = ({ setIsCreating }) => {
+  const apiClient = useApiClient();
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
   const handleOnSubmit = (evt) => {
     evt.preventDefault();
 
-    api.login({ username, password })
-      .then((res) => {
-        if (res.user.role === 'OWNER') {
-          history.push('/owner');
-        } else {
-          history.push('/home');
-        }
-       })
+    apiClient.login({ username, password })
       .catch((err) => message.error(err.message))
   }
 
@@ -38,5 +31,4 @@ const Login = ({ setIsCreating, history }) => {
   )
 }
 
-// @ts-ignore
-export default withRouter(Login);
+export default Login;

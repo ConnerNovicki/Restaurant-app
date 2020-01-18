@@ -132,6 +132,11 @@ app.post('/user/restaurant', async (req: express.Request, res: express.Response)
   return res.json(restaurant);
 });
 
+app.get('/user', async (req: express.Request, res: express.Response) => {
+  const user = await getUser(req);
+  return res.json(user);
+})
+
 // app.get('/restaurants/:id', async (req: express.Request, res: express.Response) => {
 //   const { id } = req.query;
 //   const restaurants = await photon.restaurants.findOne({ where: { id } })
