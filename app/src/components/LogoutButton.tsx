@@ -7,7 +7,7 @@ const LogoutButton = () => {
 
   const handleOnClick = () => {
     localStorage.removeItem('token');
-    history.push('/');
+    history.push('/login');
   }
   
   return (

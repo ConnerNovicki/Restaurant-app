@@ -3,11 +3,12 @@ import { IStoreContext, StoreContext } from '../../lib/context'
 import { Button, Modal } from 'antd';
 import AddRestaurant from './AddRestaurant';
 import useApiClient from '../../lib/useApiClient';
+import RestaurantView from '../../components/RestaurantView'
 
 const Owner = () => {
   const apiClient = useApiClient();
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const { state: { userRestaurants } } = useContext<IStoreContext>(StoreContext);
+  const { state: { userRestaurants, user } } = useContext<IStoreContext>(StoreContext);
 
   useEffect(() => {
     apiClient.fetchUserRestaurants();
@@ -22,7 +23,7 @@ const Owner = () => {
           ? (
             <div>
               {userRestaurants.map(restaurant => (
-                <div>{restaurant.name}</div>
+                <RestaurantView user={user} restaurant={restaurant} />
               ))}
             </div>
           )

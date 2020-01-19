@@ -1,33 +1,48 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import {
   Switch,
   Route,
+  Link,
 } from 'react-router-dom';
 import CreateOrLogin from './CreateOrLogin'
-import Home from './Home';
+import Restaurants from './Restaurants/Main';
+import RestaurantDetailed from './Restaurants/Detailed';
 import Owner from './Owner'
 import LogoutButton from '../components/LogoutButton';
-import useApiClient from '../lib/useApiClient';
+import AuthenticatedRoute from '../components/AuthenticatedRoute';
+import { Layout, Button } from 'antd';
+
+const WithLayout = ({ children }) => (
+  <Layout>
+    <Layout.Header>
+      <Button type="link"><Link to="/restaurants">Home</Link></Button>
+      <LogoutButton />
+      </Layout.Header>
+    <Layout.Content>
+      {children}
+    </Layout.Content>
+  </Layout>
+)
 
 const Routes = () => {
-  const apiClient = useApiClient();
-  useEffect(() => {
-    apiClient.fetchUser();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
   return (
     <Switch>
-      <Route path="/owner">
-        <Owner />
-        <LogoutButton />
-      </Route>
-      <Route path="/home">
-        <Home />
-        <LogoutButton />
-      </Route>
-      <Route path="/">
+      <AuthenticatedRoute path="/owner" allowed={['OWNER']} redirectTo="/home">
+        <WithLayout>
+          <Owner />
+        </WithLayout>
+      </AuthenticatedRoute>
+      <AuthenticatedRoute path="/restaurants/:id" allowed={['OWNER', 'USER', 'ADMIN']} redirectTo="/login">
+        <WithLayout>
+          <RestaurantDetailed />
+        </WithLayout>
+      </AuthenticatedRoute>
+      <AuthenticatedRoute path="/restaurants" allowed={['OWNER', 'USER', 'ADMIN']} redirectTo="/login">
+        <WithLayout>
+          <Restaurants />
+        </WithLayout>
+      </AuthenticatedRoute>
+      <Route path="/login">
         <CreateOrLogin />
       </Route>
     </Switch>

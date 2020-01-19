@@ -27,6 +27,7 @@ export default () => {
 
   const saveUserFromAuthPayload = (res) => {
     dispatch(Actions.saveUser(res.user))
+    return res;
   }
 
   return {
@@ -34,12 +35,14 @@ export default () => {
       return makeRequest('/restaurants', 'GET')
         .then(res => {
           dispatch(Actions.saveRestaurants(res));
+          return res;
         });
     },
     fetchUserRestaurants: () => {
       return makeRequest('/user/restaurants', 'GET')
         .then((res) => {
           dispatch(Actions.saveUserRestaurants(res))
+          return res;
         })
     },
     login: (body: LoginBody) => {
@@ -61,6 +64,7 @@ export default () => {
       return makeRequest('/user', 'GET')
         .then(res => {
           dispatch(Actions.saveUser(res));
+          return res;
         });
     }
   }
