@@ -95,6 +95,7 @@ app.get('/user/restaurants', async (req: express.Request, res: express.Response)
     select: {
       id: true,
       name: true,
+      description: true,
       reviews: {
         select: {
           id: true,
@@ -115,8 +116,29 @@ app.get('/user/restaurants', async (req: express.Request, res: express.Response)
 });
 
 app.get('/restaurants', async (req: express.Request, res: express.Response) => {
-  const restaurants = await photon.restaurants.findMany();
-  return res.json(restaurants);
+  const restaurants = await photon.restaurants.findMany({
+    select: {
+      id: true,
+      name: true,
+      description: true,
+      reviews: {
+        select: {
+          id: true,
+          comments: {
+            select: { id: true }
+          }
+        }
+      }
+    }
+  });
+
+  const restaurantsMap = restaurants.map(restaurant => ({
+    ...restaurant,
+    numReviews: restaurant.reviews.length,
+    numComments: restaurant.reviews.reduce((count, review) => count + review.comments.length, 0)
+  }))
+
+  return res.json(restaurantsMap);
 });
 
 app.post('/user/restaurant', async (req: express.Request, res: express.Response) => {
