@@ -11,6 +11,7 @@ import Owner from './Owner'
 import LogoutButton from '../components/LogoutButton';
 import AuthenticatedRoute from '../components/AuthenticatedRoute';
 import { Layout, Button } from 'antd';
+import Admin from './Admin';
 
 const WithLayout = ({ children }) => (
   <Layout>
@@ -40,6 +41,11 @@ const Routes = () => {
       <AuthenticatedRoute path="/restaurants" allowed={['OWNER', 'USER', 'ADMIN']} redirectTo="/login">
         <WithLayout>
           <Restaurants />
+        </WithLayout>
+      </AuthenticatedRoute>
+      <AuthenticatedRoute path="/admin" allowed={['ADMIN']} redirectTo="/restaurants">
+        <WithLayout>
+          <Admin />
         </WithLayout>
       </AuthenticatedRoute>
       <Route path="/login">

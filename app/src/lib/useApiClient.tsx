@@ -15,7 +15,12 @@ import {
   GetUserResult,
   GetRestaurantByIdArgs,
   GetRestaurantByIdResult,
-  PostRestaurantReviewArgs
+  PostRestaurantReviewArgs,
+  GetAllUsersResult,
+  DeleteUserResult,
+  DeleteRestaurantResult,
+  DeleteCommentResult,
+  DeleteReviewResult,
 } from '../../../api/Shared/restTypes';
 
 export default () => {
@@ -90,6 +95,25 @@ export default () => {
     },
     addReview: (body: PostRestaurantReviewArgs, restaurantId: string): Promise<void> => {
       return makeRequest(`/restaurants/${restaurantId}/review`, 'POST', body)
+    },
+    fetchAllUsers: (): Promise<GetAllUsersResult> => {
+      return makeRequest('/admin/users', 'GET')
+        .then(res => {
+          dispatch(Actions.saveAllUsers(res));
+          return res;
+        })
+    },
+    deleteUser: (userId: string): Promise<DeleteUserResult> => {
+      return makeRequest(`/user/${userId}`, 'DELETE')
+    },
+    deleteRestaurant: (restaurantId: string): Promise<DeleteRestaurantResult> => {
+      return makeRequest(`/restaurant/${restaurantId}`, 'DELETE')
+    },
+    deleteComment: (commentId: string): Promise<DeleteCommentResult> => {
+      return makeRequest(`/comment/${commentId}`, 'DELETE')
+    },
+    deleteReview: (reviewId: string): Promise<DeleteReviewResult> => {
+      return makeRequest(`/user/${reviewId}`, 'DELETE')
     }
   }
 };

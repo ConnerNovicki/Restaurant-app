@@ -1,6 +1,6 @@
 import React from 'react'
 import { Card, Icon } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 const getUserActions = (user, restaurantId): React.ReactNode[] => {
   if (!user) {
@@ -27,13 +27,16 @@ const getUserActions = (user, restaurantId): React.ReactNode[] => {
 }
 
 const Restaurant = ({ user, restaurant }) => {
+  const history = useHistory();
   return (
     <Card
+      onClick={() => history.push(`/restaurants/${restaurant.id}`)}
       style={{
         maxWidth: '300px',
         width: '100%',
+        cursor: 'pointer',
       }}
-      actions={getUserActions(user, restaurant.id)}
+    // actions={getUserActions(user, restaurant.id)}
     >
       <h2>{restaurant.name}</h2>
       <p>{restaurant.description}</p>

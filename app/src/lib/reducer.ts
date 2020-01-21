@@ -3,7 +3,8 @@ import {
   GetRestaurantByIdResult,
   GetUserRestaurantsResult,
   GetRestaurantsResult,
-  GetUserResult
+  GetUserResult,
+  GetAllUsersResult
 } from '../../../api/Shared/restTypes';
 
 export interface Action<TData> {
@@ -16,6 +17,7 @@ export interface State {
   restaurants: GetRestaurantsResult;
   user: GetUserResult;
   restaurantDetailed: GetRestaurantByIdResult;
+  allUsers: GetAllUsersResult;
 }
 
 export const initialState: State = {
@@ -23,6 +25,7 @@ export const initialState: State = {
   restaurants: [],
   user: null,
   restaurantDetailed: null,
+  allUsers: [],
 };
 
 export default (state: State = initialState, action: Action<any>): State => {
@@ -39,6 +42,9 @@ export default (state: State = initialState, action: Action<any>): State => {
     }
     case ActionTypes.SAVE_RESTAURANT_DETAILED: {
       return { ...state, restaurantDetailed: action.payload }
+    }
+    case ActionTypes.SAVE_ALL_USERS: {
+      return { ...state, allUsers: action.payload };
     }
     default:
       return state;

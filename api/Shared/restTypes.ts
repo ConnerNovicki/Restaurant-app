@@ -82,3 +82,13 @@ export interface PostRestaurantReviewArgs {
 }
 
 export type PostRestaurantReviewResult = Pick<Review, 'id' | 'dateOfVisit' | 'rating'>;
+
+export type GetAllUsersResult = Pick<User, 'id' | 'role' | 'username' | 'createdAt'>[];
+
+export type DeleteUserResult = Pick<User, 'id'>;
+
+export type DeleteCommentResult = Pick<Comment, 'id'>;
+
+export type DeleteReviewResult = Pick<Review, 'id'>;
+
+export type DeleteRestaurantResult = Pick<Restaurant, 'id'>;

@@ -1,11 +1,12 @@
 import { Action } from './reducer';
-import { GetRestaurantByIdResult } from '../../../api/Shared/restTypes';
+import { GetRestaurantByIdResult, GetAllUsersResult } from '../../../api/Shared/restTypes';
 
 export enum ActionTypes {
   SAVE_USER_RESTAURANTS = 'save-user-restaurants',
   SAVE_RESTAURANTS = 'save-restaurants',
   SAVE_USER = 'save-user',
-  SAVE_RESTAURANT_DETAILED = 'save-restaurant-detailed'
+  SAVE_RESTAURANT_DETAILED = 'save-restaurant-detailed',
+  SAVE_ALL_USERS = 'save-all-users',
 }
 
 export const Actions = {
@@ -23,6 +24,10 @@ export const Actions = {
   }),
   saveRestaurantDetailed: (data: GetRestaurantByIdResult): Action<GetRestaurantByIdResult> => ({
     type: ActionTypes.SAVE_RESTAURANT_DETAILED,
+    payload: data,
+  }),
+  saveAllUsers: (data: GetAllUsersResult): Action<GetAllUsersResult> => ({
+    type: ActionTypes.SAVE_ALL_USERS,
     payload: data,
   })
 }
