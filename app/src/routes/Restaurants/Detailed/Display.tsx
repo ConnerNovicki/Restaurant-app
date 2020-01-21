@@ -87,4 +87,4 @@ const RestaurantDetailedDisplay = ({ restaurantDetailed, form }: Props) => {
   )
 }
 
-export default Form.create({ name: 'AddRestaurantReview' })(RestaurantDetailedDisplay);
+export default Form.create<Props>({ name: 'AddRestaurantReview' })(RestaurantDetailedDisplay);

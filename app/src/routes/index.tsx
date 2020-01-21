@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import {
   Switch,
   Route,
@@ -12,18 +12,29 @@ import LogoutButton from '../components/LogoutButton';
 import AuthenticatedRoute from '../components/AuthenticatedRoute';
 import { Layout, Button } from 'antd';
 import Admin from './Admin';
+import { IStoreContext, StoreContext } from '../lib/context';
 
-const WithLayout = ({ children }) => (
-  <Layout>
-    <Layout.Header>
-      <Button type="link"><Link to="/restaurants">Home</Link></Button>
-      <LogoutButton />
+const WithLayout = ({ children }) => {
+  const { state: { user } } = useContext<IStoreContext>(StoreContext);
+  return (
+    <Layout>
+      <Layout.Header>
+        {user.role === 'ADMIN' && (
+          <Button icon="settings">
+            <Link to="/admin">Admin</Link>
+          </Button>
+        )}
+        <Button type="link">
+          <Link to="/restaurants">Home</Link>
+        </Button>
+        <LogoutButton />
       </Layout.Header>
-    <Layout.Content>
-      {children}
-    </Layout.Content>
-  </Layout>
-)
+      <Layout.Content>
+        {children}
+      </Layout.Content>
+    </Layout>
+  )
+}
 
 const Routes = () => {
   return (

@@ -1,31 +1,59 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Form, Input, Button } from 'antd'
 import useApiClient from '../../lib/useApiClient';
+import WrappedFormItem from '../../components/WrappedFormItem';
+import { FormComponentProps } from 'antd/lib/form';
 
-const AddRestaurant = ({ onClose }) => {
+interface FormProps {
+  name: string;
+  description: string;
+}
+
+interface Props {
+  onClose: () => void;
+  form: FormComponentProps<FormProps>['form'];
+}
+
+const AddRestaurant = ({ onClose, form }: Props) => {
   const apiClient = useApiClient();
-  const [name, setName] = useState('');
 
   const handleOnSubmit = (evt) => {
     evt.preventDefault();
 
-    apiClient.addUserRestaurant({ name })
-      .then(() => {
-        apiClient.fetchUserRestaurants();
-        setName('');
-        onClose();
-      });
+    form.validateFields((err, values) => {
+      if (err) return;
+
+      const { name, description } = values;
+      apiClient.addUserRestaurant({ name, description })
+        .then(() => {
+          apiClient.fetchUserRestaurants();
+          onClose();
+        });
+
+    })
   }
 
   return (
     <div>
       <Form onSubmit={handleOnSubmit}>
-        <label>Name:</label>
-        <Input value={name} onChange={e => setName(e.target.value)} />
+        <WrappedFormItem
+          form={form}
+          name="Name"
+          fieldName="name"
+          required
+          component={<Input />}
+        />
+        <WrappedFormItem
+          form={form}
+          name="Description"
+          fieldName="description"
+          required
+          component={<Input placeholder="Short summary: what type of food and atmostphere?" />}
+        />
         <Button htmlType="submit">Submit</Button>
       </Form>
     </div>
   )
 }
 
-export default AddRestaurant
+export default Form.create<Props>()(AddRestaurant);

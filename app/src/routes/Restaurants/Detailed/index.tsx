@@ -29,7 +29,6 @@ const Detailed = () => {
 
   return (
     <RestaurantDetailedDisplay
-      // @ts-ignore
       restaurantDetailed={restaurantDetailed}
     />
   )

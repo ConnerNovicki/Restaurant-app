@@ -8,11 +8,12 @@ export default async ({
   photon
 }: RestArgs<PostUserRestaurantArgs>): Promise<PostUserRestaurantResult> => {
   const user = await getUser(req, photon);
-  const { name } = body;
+  const { name, description } = body;
   const restaurant = await photon.restaurants.create({
     data: {
       owner: { connect: { id: user.id } },
       name,
+      description,
     }
   });
 

@@ -45,6 +45,7 @@ export type GetRestaurantsResult = {
 
 export interface PostUserRestaurantArgs {
   name: string;
+  description: string;
 }
 
 export type PostUserRestaurantResult = Restaurant;
