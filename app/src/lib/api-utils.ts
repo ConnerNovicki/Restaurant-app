@@ -16,17 +16,3 @@ export const makeRequest = (path: string, method: 'GET' | 'POST', body?: any) =>
 
   return fetch(`${url}${path}`, options).then(res => res.json());
 }
-
-export interface LoginBody {
-  username: string;
-  password: string;
-}
-
-export interface CreateUserBody {
-  role: string;
-  username: string;
-}
-
-export interface AddUserRestaurantBody {
-  name: string;
-}

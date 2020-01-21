@@ -18,7 +18,7 @@ const Owner = () => {
   return (
     <>
       <div>
-        <h2>Welcome Back Owner</h2>
+        <h2>Welcome Back {user.username}</h2>
         {!!userRestaurants.length
           ? (
             <div>

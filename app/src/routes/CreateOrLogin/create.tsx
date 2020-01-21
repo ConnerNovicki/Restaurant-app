@@ -4,7 +4,7 @@ import useApiClient from '../../lib/useApiClient';
 
 const CreateAccount = ({ setIsCreating }) => {
   const apiClient = useApiClient();
-  const [role, setRole] = useState<string>('USER');
+  const [role, setRole] = useState<'OWNER' | 'ADMIN' | 'USER'>('USER');
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
