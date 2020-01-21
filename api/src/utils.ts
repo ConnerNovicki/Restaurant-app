@@ -2,6 +2,7 @@ import * as express from 'express'
 import { User, Photon } from '@prisma/photon';
 import { AuthPayload } from './types';
 import * as Jwt from 'jsonwebtoken'
+import * as bcrypt from 'bcrypt';
 
 export const getUser = (req: express.Request, photon: Photon): Promise<User> => {
   const token = req.headers.authorization;
@@ -31,6 +32,15 @@ export const handleOperation = async (
     const response = await operation();
     res.json(response);
   } catch (e) {
+    console.log('error: ', e)
     res.sendStatus(400)
   }
+}
+
+export const generateSalt = async (password: string): Promise<string> => {
+  return bcrypt.hash(password, 10);
+}
+
+export const isValidPassword = async (password: string, salt: string): Promise<boolean> => {
+  return bcrypt.compare(password, salt);
 }

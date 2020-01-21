@@ -4,7 +4,7 @@ generator photon {
 
 datasource db {
   provider = "sqlite"
-  url      = "file:dev.db"
+  url = "***"
 }
 
 enum Role {
@@ -16,7 +16,6 @@ enum Role {
 model User {
   id               String       @default(cuid()) @id
   username         String       @unique
-  passwordSalt     String
   role             Role         @default(USER)
   ownedRestaurants Restaurant[]
   authoredReviews  Review[]

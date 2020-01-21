@@ -16,6 +16,7 @@ import deleteUser from './operations/deleteUser';
 import deleteReview from './operations/deleteReview';
 import deleteRestaurant from './operations/deleteRestaurant';
 import deleteComment from './operations/deleteComment';
+import postReviewComment from './operations/postReviewComment';
 
 const photon = new Photon()
 const app = express()
@@ -97,21 +98,31 @@ app.delete('/user/:id', async (req: express.Request, res: express.Response) => {
     res,
   )
 })
+
 app.delete('/review/:id', async (req: express.Request, res: express.Response) => {
   handleOperation(
     () => deleteReview({ req, body: req.body, photon }),
     res,
   )
 })
+
 app.delete('/restaurant/:id', async (req: express.Request, res: express.Response) => {
   handleOperation(
     () => deleteRestaurant({ req, body: req.body, photon }),
     res,
   )
 })
+
 app.delete('/comment/:id', async (req: express.Request, res: express.Response) => {
   handleOperation(
     () => deleteComment({ req, body: req.body, photon }),
+    res,
+  )
+})
+
+app.post('/review/:id/comment', (req: express.Request, res: express.Response) => {
+  handleOperation(
+    () => postReviewComment({ req, body: req.body, photon }),
     res,
   )
 })

@@ -1,16 +1,19 @@
 import { PostUserArgs, PostUserResult } from "../../Shared/restTypes";
-import { createToken } from "../utils";
+import { createToken, generateSalt } from "../utils";
 import { RestArgs } from "../types";
 
 export default async ({
   body,
   photon
 }: RestArgs<PostUserArgs>): Promise<PostUserResult> => {
-  const { role, username } = body;
+  const { role, username, password } = body;
+  const passwordSalt = await generateSalt(password);
+
   const user = await photon.users.create({
     data: {
       role,
       username,
+      passwordSalt,
     },
     select: {
       id: true,

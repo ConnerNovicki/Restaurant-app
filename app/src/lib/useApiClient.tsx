@@ -21,6 +21,8 @@ import {
   DeleteRestaurantResult,
   DeleteCommentResult,
   DeleteReviewResult,
+  PostReviewCommentArgs,
+  PostReviewCommentResult,
 } from '../../../api/Shared/restTypes';
 
 export default () => {
@@ -39,7 +41,7 @@ export default () => {
     } else if (res.user.role === 'ADMIN') {
       history.push('/admin');
     } else {
-      history.push('/home');
+      history.push('/restaurants');
     }
     return res;
   }
@@ -114,6 +116,9 @@ export default () => {
     },
     deleteReview: (reviewId: string): Promise<DeleteReviewResult> => {
       return makeRequest(`/user/${reviewId}`, 'DELETE')
+    },
+    createCommentOnReview: (data: PostReviewCommentArgs, reviewId: string): Promise<PostReviewCommentResult> => {
+      return makeRequest(`/review/${reviewId}/comment`, 'POST', data)
     }
   }
 };

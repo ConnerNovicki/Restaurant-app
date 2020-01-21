@@ -14,13 +14,19 @@ const Admin = () => {
 
   const handleDeleteUser = (userId: string) => {
     apiClient.deleteUser(userId)
-      .then(() => apiClient.fetchAllUsers())
+      .then(() => {
+        apiClient.fetchAllUsers()
+        apiClient.fetchAllRestaurants();
+      })
       .catch(err => message.error(err.message));
   }
 
   const handleDeleteRestaurant = (restaurantId: string) => {
     apiClient.deleteRestaurant(restaurantId)
-      .then(() => apiClient.fetchAllRestaurants())
+      .then(() => {
+        apiClient.fetchAllUsers()
+        apiClient.fetchAllRestaurants();
+      })
       .catch(err => message.error(err.message));
   }
 

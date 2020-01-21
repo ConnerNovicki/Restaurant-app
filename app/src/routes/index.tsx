@@ -19,15 +19,23 @@ const WithLayout = ({ children }) => {
   return (
     <Layout>
       <Layout.Header>
-        {user.role === 'ADMIN' && (
-          <Button icon="settings">
-            <Link to="/admin">Admin</Link>
+        <div style={{ display: 'flex' }}>
+          <h2>Role: {user.role}</h2>
+          {user.role === 'ADMIN' && (
+            <Button icon="settings">
+              <Link to="/admin">Admin</Link>
+            </Button>
+          )}
+          {user.role === 'OWNER' && (
+            <Button type="link">
+              <Link to="/owner">Owned Restaurants</Link>
+            </Button>
+          )}
+          <Button type="link">
+            <Link to="/restaurants">Home</Link>
           </Button>
-        )}
-        <Button type="link">
-          <Link to="/restaurants">Home</Link>
-        </Button>
-        <LogoutButton />
+          <LogoutButton />
+        </div>
       </Layout.Header>
       <Layout.Content>
         {children}

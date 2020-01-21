@@ -7,12 +7,11 @@ const CreateAccount = ({ setIsCreating }) => {
   const [role, setRole] = useState<'OWNER' | 'ADMIN' | 'USER'>('USER');
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [confirmPassword, setConfirmPassword] = useState<string>('');
 
   const handleOnSubmit = (evt) => {
     evt.preventDefault()
 
-    apiClient.createUser({ username, role })
+    apiClient.createUser({ username, role, password })
       .catch(err => message.error(err.message));
   }
 
@@ -30,8 +29,6 @@ const CreateAccount = ({ setIsCreating }) => {
         <Input value={username} onChange={e => setUsername(e.target.value)} />
         <label>Password</label>
         <Input.Password value={password} onChange={e => setPassword(e.target.value)} />
-        <label>Re-type Password</label>
-        <Input.Password value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} />
         <Button htmlType="submit">Create Account</Button>
       </Form>
       <Button type="link" onClick={setIsCreating}>Back to login</Button>

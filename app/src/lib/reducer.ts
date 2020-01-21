@@ -46,6 +46,9 @@ export default (state: State = initialState, action: Action<any>): State => {
     case ActionTypes.SAVE_ALL_USERS: {
       return { ...state, allUsers: action.payload };
     }
+    case ActionTypes.CLEAR_STORE: {
+      return initialState;
+    }
     default:
       return state;
   }

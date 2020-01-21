@@ -8,9 +8,22 @@ export default async ({
   req
 }: RestArgs<{}>): Promise<DeleteRestaurantResult> => {
   const user = await getUser(req, photon);
-  if (user.role !== 'ADMIN') throw new Error('You cannot access this information')
-
   const { id } = req.params;
+
+  const userCanEdit = await photon.users.findOne({
+    where: { id: user.id },
+    select: {
+      ownedRestaurants: {
+        where: { id },
+      }
+    }
+  });
+
+  if (
+    user.role !== 'ADMIN'
+    && !userCanEdit.ownedRestaurants.length) {
+    throw new Error('You cannot access this information')
+  }
 
   const reviews = await photon.reviews.findMany({
     where: { restaurant: { id } },

@@ -7,6 +7,7 @@ export enum ActionTypes {
   SAVE_USER = 'save-user',
   SAVE_RESTAURANT_DETAILED = 'save-restaurant-detailed',
   SAVE_ALL_USERS = 'save-all-users',
+  CLEAR_STORE = 'clear-store',
 }
 
 export const Actions = {
@@ -29,5 +30,8 @@ export const Actions = {
   saveAllUsers: (data: GetAllUsersResult): Action<GetAllUsersResult> => ({
     type: ActionTypes.SAVE_ALL_USERS,
     payload: data,
+  }),
+  clearStore: (): Action<{}> => ({
+    type: ActionTypes.CLEAR_STORE,
   })
 }

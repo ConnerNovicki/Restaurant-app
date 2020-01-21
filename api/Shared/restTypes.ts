@@ -13,6 +13,7 @@ export interface PostLoginArgs {
 export interface PostUserArgs {
   role: Role;
   username: string;
+  password: string;
 }
 
 export type PostUserResult = {
@@ -93,3 +94,9 @@ export type DeleteCommentResult = Pick<Comment, 'id'>;
 export type DeleteReviewResult = Pick<Review, 'id'>;
 
 export type DeleteRestaurantResult = Pick<Restaurant, 'id'>;
+
+export interface PostReviewCommentArgs {
+  comment: string;
+}
+
+export type PostReviewCommentResult = Pick<Comment, 'id'>;
