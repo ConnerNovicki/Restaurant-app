@@ -115,7 +115,7 @@ export default () => {
       return makeRequest(`/comment/${commentId}`, 'DELETE')
     },
     deleteReview: (reviewId: string): Promise<DeleteReviewResult> => {
-      return makeRequest(`/user/${reviewId}`, 'DELETE')
+      return makeRequest(`/review/${reviewId}`, 'DELETE')
     },
     createCommentOnReview: (data: PostReviewCommentArgs, reviewId: string): Promise<PostReviewCommentResult> => {
       return makeRequest(`/review/${reviewId}/comment`, 'POST', data)

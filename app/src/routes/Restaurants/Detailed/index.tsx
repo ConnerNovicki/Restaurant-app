@@ -12,7 +12,7 @@ const Detailed = () => {
   const history = useHistory();
   const params = useParams() as QueryParams;
   const apiClient = useApiClient();
-  const { state: { restaurantDetailed } } = useContext<IStoreContext>(StoreContext);
+  const { state: { restaurantsById } } = useContext<IStoreContext>(StoreContext);
 
   useEffect(() => {
     if (!params.id) {
@@ -23,13 +23,19 @@ const Detailed = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  if (!restaurantDetailed) {
+  if (!params.id) {
+    history.push('/restaurants');
+  }
+
+  const restaurant = restaurantsById[params.id];
+
+  if (!restaurant) {
     return <div>Loading...</div>
   }
 
   return (
     <RestaurantDetailedDisplay
-      restaurantDetailed={restaurantDetailed}
+      restaurantDetailed={restaurant}
     />
   )
 }

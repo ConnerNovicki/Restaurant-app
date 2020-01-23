@@ -2,6 +2,7 @@ import React, { useEffect, useContext } from 'react'
 import useApiClient from '../../lib/useApiClient'
 import { IStoreContext, StoreContext } from '../../lib/context';
 import { Table, Button, message } from 'antd';
+import RestaurantExpanded from './RestaurantExpanded';
 
 const Admin = () => {
   const apiClient = useApiClient();
@@ -30,6 +31,8 @@ const Admin = () => {
       .catch(err => message.error(err.message));
   }
 
+  console.log('STATE', state);
+
   return (
     <div>
       <h1>Users:</h1>
@@ -50,6 +53,7 @@ const Admin = () => {
       <h1>Restaurants:</h1>
       <Table
         dataSource={state.restaurants}
+        expandedRowRender={(restaurant) => <RestaurantExpanded restaurantId={restaurant.id} />}
         columns={[
           {
             render: (_, { name }) => <span>{name}</span>

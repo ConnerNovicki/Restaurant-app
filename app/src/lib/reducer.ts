@@ -16,16 +16,16 @@ export interface State {
   userRestaurants: GetUserRestaurantsResult;
   restaurants: GetRestaurantsResult;
   user: GetUserResult;
-  restaurantDetailed: GetRestaurantByIdResult;
   allUsers: GetAllUsersResult;
+  restaurantsById: { [key: string]: GetRestaurantByIdResult }
 }
 
 export const initialState: State = {
   userRestaurants: [],
   restaurants: [],
   user: null,
-  restaurantDetailed: null,
   allUsers: [],
+  restaurantsById: {},
 };
 
 export default (state: State = initialState, action: Action<any>): State => {
@@ -41,7 +41,14 @@ export default (state: State = initialState, action: Action<any>): State => {
       return { ...state, user: action.payload };
     }
     case ActionTypes.SAVE_RESTAURANT_DETAILED: {
-      return { ...state, restaurantDetailed: action.payload }
+      const payload = action.payload as GetRestaurantByIdResult;
+      return {
+        ...state,
+        restaurantsById: {
+          ...state.restaurantsById,
+          [payload.id]: payload,
+        }
+      }
     }
     case ActionTypes.SAVE_ALL_USERS: {
       return { ...state, allUsers: action.payload };
