@@ -14,6 +14,7 @@ export default async ({
       reviews: {
         select: {
           id: true,
+          rating: true,
           comments: {
             select: { id: true }
           }
@@ -22,13 +23,25 @@ export default async ({
     }
   });
 
-  const restaurantsMap = restaurants.map(restaurant => ({
-    id: restaurant.id,
-    description: restaurant.description,
-    name: restaurant.name,
-    numReviews: restaurant.reviews.length,
-    numComments: restaurant.reviews.reduce((count, review) => count + review.comments.length, 0)
-  }))
+  const restaurantsMap = restaurants.map(restaurant => {
+    const numReviews = restaurant.reviews.length;
+    const { numComments, totalRating } = restaurant.reviews.reduce(
+      ({ numComments, totalRating }, review) => ({
+        numComments: numComments + review.comments.length,
+        totalRating: totalRating + review.rating,
+      }),
+      { totalRating: 0, numComments: 0 });
+    const averageRating = Number((totalRating / numReviews).toFixed(2));
+
+    return {
+      id: restaurant.id,
+      description: restaurant.description,
+      name: restaurant.name,
+      averageRating,
+      numReviews,
+      numComments,
+    }
+  })
 
   return restaurantsMap;
 }

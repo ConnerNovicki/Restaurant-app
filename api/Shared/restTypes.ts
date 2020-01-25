@@ -25,6 +25,9 @@ export type GetUserRestaurantsResult = {
   id: Restaurant['id'];
   name: Restaurant['name'];
   description: Restaurant['description'];
+  averageRating: number;
+  numReviews: number;
+  numComments: number;
   reviews: {
     id: Review['id']
     author: Pick<User, 'username'>;
@@ -40,6 +43,7 @@ export type GetRestaurantsResult = {
   id: string;
   name: string;
   description: string;
+  averageRating: number;
   numReviews: number;
   numComments: number;
 }[];

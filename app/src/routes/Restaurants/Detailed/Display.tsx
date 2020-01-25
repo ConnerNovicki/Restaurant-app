@@ -59,7 +59,7 @@ const RestaurantDetailedDisplay = ({ restaurantDetailed }: Props) => {
           )}
         </>
       )
-        : (
+        : lowestRatedReview && (
           <>
             <ReviewDisplay review={lowestRatedReview} restaurantId={restaurantDetailed.id} />
             <br />

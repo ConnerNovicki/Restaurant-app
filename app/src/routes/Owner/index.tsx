@@ -23,7 +23,7 @@ const Owner = () => {
           ? (
             <div>
               {userRestaurants.map(restaurant => (
-                <RestaurantView user={user} restaurant={restaurant} />
+                <RestaurantView restaurant={restaurant} />
               ))}
             </div>
           )
