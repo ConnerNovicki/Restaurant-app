@@ -39,35 +39,31 @@ const CreateReviewModal = ({ setIsVisible, form, restaurantDetailed }: Props) =>
 
   return (
     <Modal footer={null} visible onCancel={() => setIsVisible(false)}>
-      {userOwnsRestaurant
-        ? <div>Sorry, only non-owners can leave a review.</div>
-        : (
-          <Form onSubmit={handleSubmit}>
-            <h2>Add a reivew:</h2>
-            <WrappedFormItem
-              form={form}
-              name="Rating"
-              fieldName="rating"
-              required
-              component={<Slider min={1} max={5} />}
-            />
-            <WrappedFormItem
-              form={form}
-              name="Comment"
-              fieldName="comment"
-              required
-              component={<Input.TextArea />}
-            />
-            <WrappedFormItem
-              form={form}
-              name="Date of Visit"
-              fieldName="dateOfVisit"
-              required
-              component={<DatePicker />}
-            />
-            <Button htmlType="submit">Add Review</Button>
-          </Form>
-        )}
+      <Form onSubmit={handleSubmit}>
+        <h2>Add a reivew:</h2>
+        <WrappedFormItem
+          form={form}
+          name="Rating"
+          fieldName="rating"
+          required
+          component={<Slider min={1} max={5} />}
+        />
+        <WrappedFormItem
+          form={form}
+          name="Comment"
+          fieldName="comment"
+          required
+          component={<Input.TextArea />}
+        />
+        <WrappedFormItem
+          form={form}
+          name="Date of Visit"
+          fieldName="dateOfVisit"
+          required
+          component={<DatePicker />}
+        />
+        <Button htmlType="submit">Add Review</Button>
+      </Form>
     </Modal>
   )
 }

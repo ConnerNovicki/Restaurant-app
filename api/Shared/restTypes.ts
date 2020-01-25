@@ -62,11 +62,13 @@ export type GetRestaurantByIdResult = {
   name: Restaurant['name']
   description: Restaurant['description']
   numReviews: number;
+  averageRating: number;
   numComments: number;
   reviews: {
-    id: Review['id']
-    dateOfVisit: Review['dateOfVisit']
+    id: Review['id'];
+    dateOfVisit: Review['dateOfVisit'];
     rating: Review['rating'];
+    createdAt: Review['createdAt'];
     author: Pick<User, 'username' | 'id'>;
     comments: {
       id: Comment['id'];

@@ -17,6 +17,7 @@ export default async ({
           id: true,
           author: { select: { username: true, id: true, } },
           dateOfVisit: true,
+          createdAt: true,
           rating: true,
           comments: {
             select: {
@@ -31,9 +32,19 @@ export default async ({
     }
   });
 
+  const numReviews = restaurant.reviews.length;
+  const { numComments, totalRating } = restaurant.reviews.reduce(
+    ({ numComments, totalRating }, review) => ({
+      numComments: numComments + review.comments.length,
+      totalRating: totalRating + review.rating,
+    }),
+    { totalRating: 0, numComments: 0 });
+  const averageRating = totalRating / numReviews;
+
   return {
     ...restaurant,
-    numReviews: restaurant.reviews.length,
-    numComments: restaurant.reviews.reduce((count, review) => count + review.comments.length, 0)
+    numReviews,
+    numComments,
+    averageRating,
   };
 }
