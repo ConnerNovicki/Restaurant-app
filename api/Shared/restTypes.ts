@@ -1,4 +1,4 @@
-import { User, Role, Restaurant, Review, Comment } from "@prisma/photon";
+import { User, Role, Restaurant, Review, Comment, RestaurantClient } from "@prisma/photon";
 
 export interface PostLoginResult {
   user: Pick<User, 'id' | 'role' | 'username'>;
@@ -100,3 +100,13 @@ export interface PostReviewCommentArgs {
 }
 
 export type PostReviewCommentResult = Pick<Comment, 'id'>;
+
+export type PutUserArgs = Pick<User, 'role' | 'username'>;
+
+export type PutRestaurantArgs = Pick<Restaurant, 'description' | 'name'>;
+
+export type PutReviewArgs = Pick<Review, 'dateOfVisit' | 'rating'>;
+
+export type PutCommentArgs = Pick<Comment, 'text'>;
+
+export type PutResult = { id: string; };

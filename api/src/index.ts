@@ -17,6 +17,10 @@ import deleteReview from './operations/deleteReview';
 import deleteRestaurant from './operations/deleteRestaurant';
 import deleteComment from './operations/deleteComment';
 import postReviewComment from './operations/postReviewComment';
+import putUser from './operations/putUser';
+import putReview from './operations/putReview';
+import putRestaurant from './operations/putRestaurant';
+import putComment from './operations/putComment';
 
 const photon = new Photon()
 const app = express()
@@ -91,6 +95,34 @@ app.get('/admin/users', async (req: express.Request, res: express.Response) => {
     res,
   )
 });
+
+app.put('/user/:id', async (req: express.Request, res: express.Response) => {
+  handleOperation(
+    () => putUser({ req, body: req.body, photon }),
+    res,
+  )
+})
+
+app.put('/review/:id', async (req: express.Request, res: express.Response) => {
+  handleOperation(
+    () => putReview({ req, body: req.body, photon }),
+    res,
+  )
+})
+
+app.put('/restaurant/:id', async (req: express.Request, res: express.Response) => {
+  handleOperation(
+    () => putRestaurant({ req, body: req.body, photon }),
+    res,
+  )
+})
+
+app.put('/comment/:id', async (req: express.Request, res: express.Response) => {
+  handleOperation(
+    () => putComment({ req, body: req.body, photon }),
+    res,
+  )
+})
 
 app.delete('/user/:id', async (req: express.Request, res: express.Response) => {
   handleOperation(

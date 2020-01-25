@@ -23,6 +23,10 @@ import {
   DeleteReviewResult,
   PostReviewCommentArgs,
   PostReviewCommentResult,
+  PutUserArgs,
+  PutRestaurantArgs,
+  PutCommentArgs,
+  PutReviewArgs,
 } from '../../../api/Shared/restTypes';
 
 export default () => {
@@ -119,6 +123,18 @@ export default () => {
     },
     createCommentOnReview: (data: PostReviewCommentArgs, reviewId: string): Promise<PostReviewCommentResult> => {
       return makeRequest(`/review/${reviewId}/comment`, 'POST', data)
-    }
+    },
+    editUser: (userId: string, data: PutUserArgs): Promise<DeleteUserResult> => {
+      return makeRequest(`/user/${userId}`, 'PUT', data)
+    },
+    editRestaurant: (restaurantId: string, data: PutRestaurantArgs): Promise<DeleteRestaurantResult> => {
+      return makeRequest(`/restaurant/${restaurantId}`, 'PUT', data)
+    },
+    editComment: (commentId: string, data: PutCommentArgs): Promise<DeleteCommentResult> => {
+      return makeRequest(`/comment/${commentId}`, 'PUT', data)
+    },
+    editReview: (reviewId: string, data: PutReviewArgs): Promise<DeleteReviewResult> => {
+      return makeRequest(`/review/${reviewId}`, 'PUT', data)
+    },
   }
 };

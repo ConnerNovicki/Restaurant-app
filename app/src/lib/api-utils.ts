@@ -1,7 +1,7 @@
 // const url = process.env.API_URL;
 const url = 'http://localhost:4000'
 
-export const makeRequest = (path: string, method: 'GET' | 'POST' | 'DELETE', body?: any) => {
+export const makeRequest = (path: string, method: 'GET' | 'POST' | 'DELETE' | 'PUT', body?: any) => {
   const token = localStorage.getItem('token');
 
   const options: RequestInit = {
