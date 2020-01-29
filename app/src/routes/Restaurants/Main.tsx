@@ -4,6 +4,8 @@ import useApiClient from '../../lib/useApiClient';
 import RestaurantView from '../../components/RestaurantView'
 import { Select } from 'antd';
 import { sortAndFilterRestaurants, SORT_BY, FILTER_BY, } from '../../lib/sortAndFilterRestaurants'
+import './styles.scss';
+import Block from '../../components/Block';
 
 const Home = () => {
   const [sortBy, setSortBy] = useState<SORT_BY>('RATING_DESC')
@@ -28,27 +30,33 @@ const Home = () => {
   });
 
   return (
-    <div>
-      <Select value={filterBy} onChange={handleOnFilterChange}>
-        <Select.Option value={null}>All</Select.Option>
-        <Select.Option value="RATING_5">5 Star</Select.Option>
-        <Select.Option value="RATING_4">4 Star</Select.Option>
-        <Select.Option value="RATING_3">3 Star</Select.Option>
-        <Select.Option value="RATING_2">2 Star</Select.Option>
-        <Select.Option value="RATING_1">1 Star</Select.Option>
-      </Select>
-      <Select value={sortBy} onChange={handleOnSortChange}>
-        <Select.Option value="RATING_ASC">Rating ascending</Select.Option>
-        <Select.Option value="RATING_DESC">Rating descending</Select.Option>
-      </Select>
-
-      All Restaurants:
-      {sortAndFilteredRestaurants.map(restaurant => (
+    <Block classNames={['restaurants-main']}>
+      <div className="header">
+        <h3>All Restaurants:</h3>
         <div>
-          <RestaurantView restaurant={restaurant} />
+          <label>Star Rating:</label>
+          <Select className="filter-box" value={filterBy} onChange={handleOnFilterChange}>
+            <Select.Option value={null}>All</Select.Option>
+            <Select.Option value="RATING_5">5 Star</Select.Option>
+            <Select.Option value="RATING_4">4 Star</Select.Option>
+            <Select.Option value="RATING_3">3 Star</Select.Option>
+            <Select.Option value="RATING_2">2 Star</Select.Option>
+            <Select.Option value="RATING_1">1 Star</Select.Option>
+          </Select>
+          <label>Sort by:</label>
+          <Select className="filter-box" value={sortBy} onChange={handleOnSortChange}>
+            <Select.Option value="RATING_ASC">Rating ascending</Select.Option>
+            <Select.Option value="RATING_DESC">Rating descending</Select.Option>
+          </Select>
         </div>
-      ))}
-    </div>
+      </div>
+
+      <div className="content">
+        {sortAndFilteredRestaurants.map(restaurant => (
+          <RestaurantView restaurant={restaurant} />
+        ))}
+      </div>
+    </Block>
   )
 }
 

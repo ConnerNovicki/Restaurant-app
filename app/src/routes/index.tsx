@@ -3,6 +3,7 @@ import {
   Switch,
   Route,
   Link,
+  Redirect,
 } from 'react-router-dom';
 import CreateOrLogin from './CreateOrLogin'
 import Restaurants from './Restaurants/Main';
@@ -10,32 +11,36 @@ import RestaurantDetailed from './Restaurants/Detailed';
 import Owner from './Owner'
 import LogoutButton from '../components/LogoutButton';
 import AuthenticatedRoute from '../components/AuthenticatedRoute';
-import { Layout, Button } from 'antd';
+import { Layout, Menu } from 'antd';
 import Admin from './Admin';
 import { IStoreContext, StoreContext } from '../lib/context';
 
-const WithLayout = ({ children }) => {
+const WithLayout = ({ children, selectedKey }) => {
   const { state: { user } } = useContext<IStoreContext>(StoreContext);
   return (
     <Layout>
-      <Layout.Header>
-        <div style={{ display: 'flex' }}>
-          <h2>Role: {user.role}</h2>
-          {user.role === 'ADMIN' && (
-            <Button icon="settings">
-              <Link to="/admin">Admin</Link>
-            </Button>
-          )}
-          {user.role === 'OWNER' && (
-            <Button type="link">
-              <Link to="/owner">Owned Restaurants</Link>
-            </Button>
-          )}
-          <Button type="link">
+      <Layout.Header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Menu
+          mode="horizontal"
+          theme="dark"
+          defaultSelectedKeys={[selectedKey]}
+          style={{ lineHeight: '64px' }}
+        >
+          <Menu.Item key="1">
             <Link to="/restaurants">Home</Link>
-          </Button>
-          <LogoutButton />
-        </div>
+          </Menu.Item>
+          {user.role === 'OWNER' && (
+            <Menu.Item key="2">
+              <Link to="/owner">Owned Restaurants</Link>
+            </Menu.Item>
+          )}
+          {user.role === 'ADMIN' && (
+            <Menu.Item key="3">
+              <Link to="/admin">Admin</Link>
+            </Menu.Item>
+          )}
+        </Menu>
+        <LogoutButton />
       </Layout.Header>
       <Layout.Content>
         {children}
@@ -47,28 +52,31 @@ const WithLayout = ({ children }) => {
 const Routes = () => {
   return (
     <Switch>
-      <AuthenticatedRoute path="/owner" allowed={['OWNER']} redirectTo="/home">
-        <WithLayout>
-          <Owner />
-        </WithLayout>
-      </AuthenticatedRoute>
       <AuthenticatedRoute path="/restaurants/:id" allowed={['OWNER', 'USER', 'ADMIN']} redirectTo="/login">
-        <WithLayout>
+        <WithLayout selectedKey="1">
           <RestaurantDetailed />
         </WithLayout>
       </AuthenticatedRoute>
       <AuthenticatedRoute path="/restaurants" allowed={['OWNER', 'USER', 'ADMIN']} redirectTo="/login">
-        <WithLayout>
+        <WithLayout selectedKey="1">
           <Restaurants />
         </WithLayout>
       </AuthenticatedRoute>
+      <AuthenticatedRoute path="/owner" allowed={['OWNER']} redirectTo="/home">
+        <WithLayout selectedKey="2">
+          <Owner />
+        </WithLayout>
+      </AuthenticatedRoute>
       <AuthenticatedRoute path="/admin" allowed={['ADMIN']} redirectTo="/restaurants">
-        <WithLayout>
+        <WithLayout selectedKey="3">
           <Admin />
         </WithLayout>
       </AuthenticatedRoute>
       <Route path="/login">
         <CreateOrLogin />
+      </Route>
+      <Route path="*">
+        <Redirect to={{ pathname: '/login' }} />
       </Route>
     </Switch>
   )

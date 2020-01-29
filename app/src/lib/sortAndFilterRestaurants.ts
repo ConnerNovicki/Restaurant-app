@@ -1,13 +1,13 @@
 export type SORT_BY = 'RATING_ASC' | 'RATING_DESC';
 export type FILTER_BY = 'RATING_5' | 'RATING_4' | 'RATING_3' | 'RATING_2' | 'RATING_1';
 
-interface Args {
+interface Args<T> {
   sortBy?: SORT_BY;
   filterBy?: FILTER_BY;
-  restaurants: { averageRating: number }[];
+  restaurants: T[];
 }
 
-export const sortAndFilterRestaurants = ({ sortBy, filterBy, restaurants }: Args) => {
+export function sortAndFilterRestaurants<T extends { averageRating: number; }>({ sortBy, filterBy, restaurants }: Args<T>): T[] {
   let updatedRestaurants = restaurants;
 
   if (!!sortBy) {

@@ -1,0 +1,15 @@
+.restaurants-main {
+  .header {
+    padding: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .filter-box {
+      width: 300px;
+    }
+  }
+
+  .content {
+  }
+}

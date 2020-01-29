@@ -1,0 +1,20 @@
+@import '../../assets//global.styles.scss';
+
+.login {
+  background-color: $primary-color;
+  padding: 1rem;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .card {
+    max-width: 50rem;
+    width: 100%;
+
+    .footer-container {
+      padding: 1rem 0;
+      display: flex;
+    }
+  }
+}

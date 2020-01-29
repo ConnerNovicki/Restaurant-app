@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Form, Input, message, Select } from 'antd'
+import { Row, Button, Form, Input, message, Select } from 'antd'
 import useApiClient from '../../lib/useApiClient';
 
 const CreateAccount = ({ setIsCreating }) => {
@@ -29,9 +29,11 @@ const CreateAccount = ({ setIsCreating }) => {
         <Input value={username} onChange={e => setUsername(e.target.value)} />
         <label>Password</label>
         <Input.Password value={password} onChange={e => setPassword(e.target.value)} />
-        <Button htmlType="submit">Create Account</Button>
+        <Row className="footer-container">
+          <Button htmlType="submit">Create Account</Button>
+          <Button type="link" onClick={setIsCreating}>Back to login</Button>
+        </Row>
       </Form>
-      <Button type="link" onClick={setIsCreating}>Back to login</Button>
     </div>
   )
 }

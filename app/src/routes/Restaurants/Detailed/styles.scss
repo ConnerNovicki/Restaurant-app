@@ -1,0 +1,16 @@
+.restaurant-detailed {
+  .header {
+    display: flex;
+    padding: 1rem 0;
+
+    .food-img {
+      width: 200px;
+      height: 200px;
+      background-size: cover;
+    }
+    .content {
+      padding: 1rem;
+      flex: 1;
+    }
+  }
+}

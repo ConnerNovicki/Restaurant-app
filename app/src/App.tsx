@@ -9,11 +9,13 @@ import './App.css';
 
 const App: React.FC = () => {
   return (
-    <StoreProvider>
-      <Router>
-        <Routes />
-      </Router>
-    </StoreProvider>
+    <div className="App">
+      <StoreProvider>
+        <Router>
+          <Routes />
+        </Router>
+      </StoreProvider>
+    </div>
   );
 }
 

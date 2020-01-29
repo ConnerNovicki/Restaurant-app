@@ -31,7 +31,9 @@ export default async ({
         totalRating: totalRating + review.rating,
       }),
       { totalRating: 0, numComments: 0 });
-    const averageRating = Number((totalRating / numReviews).toFixed(2));
+    const averageRating = !!totalRating && !!numReviews
+      ? Number((totalRating / numReviews).toFixed(2))
+      : null;
 
     return {
       id: restaurant.id,

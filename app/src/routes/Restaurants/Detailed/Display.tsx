@@ -6,6 +6,9 @@ import DeleteRestaurantButton from '../../../components/DeleteRestaurantButton'
 import ReviewDisplay from './ReviewDisplay';
 import moment from 'moment';
 import useUserOwnsRestaurant from '../../../lib/useUserOwnsRestaurant';
+import Block from '../../../components/Block';
+import foodImg from '../../../assets/food1.png';
+import './styles.scss';
 
 interface Props {
   restaurantDetailed: GetRestaurantByIdResult;
@@ -23,9 +26,9 @@ const RestaurantDetailedDisplay = ({ restaurantDetailed }: Props) => {
   )
 
   const lowestRatedReview = restaurantDetailed.reviews.reduce(
-    (highestRatedReview, currReview) => currReview.rating < highestRatedReview.rating
+    (lowestRatedReview, currReview) => currReview.rating < lowestRatedReview.rating
       ? currReview
-      : highestRatedReview,
+      : lowestRatedReview,
     restaurantDetailed.reviews[0],
   )
 
@@ -35,10 +38,19 @@ const RestaurantDetailedDisplay = ({ restaurantDetailed }: Props) => {
     .slice(0, 3);
 
   return (
-    <div>
-      <h2>Name: {restaurantDetailed.name}</h2>
-      <h3>Description: {restaurantDetailed.description}</h3>
-      <h4>Average Rating: {restaurantDetailed.averageRating}</h4>
+    <Block classNames={['restaurant-detailed']}>
+      <div className="header">
+        <div className="food-img" style={{ backgroundImage: `url(${foodImg})` }} />
+        <div className="content">
+
+          <h2>Name: {restaurantDetailed.name}</h2>
+          <h3>Description: {restaurantDetailed.description}</h3>
+          {!!restaurantDetailed.averageRating
+            ? <h4>Average Rating: {restaurantDetailed.averageRating}</h4>
+            : <h4>No ratings yet</h4>
+          }
+        </div>
+      </div>
 
       {restaurantDetailed.reviews.length > 1 ? (
         <>
@@ -67,10 +79,14 @@ const RestaurantDetailedDisplay = ({ restaurantDetailed }: Props) => {
         )
       }
 
-      <h4>Other recent reviews: </h4>
-      {filteredReviews.map(review => (
-        <ReviewDisplay review={review} restaurantId={restaurantDetailed.id} />
-      ))}
+      {!!filteredReviews.length && (
+        <>
+          <h4>Other recent reviews: </h4>
+          {filteredReviews.map(review => (
+            <ReviewDisplay review={review} restaurantId={restaurantDetailed.id} />
+          ))}
+        </>
+      )}
       {!userOwnsRestaurant && <Button onClick={() => setIsAddingComment(true)}>Add Review</Button>}
       {isAddingComment && (
         <CreateReviewModal
@@ -78,7 +94,7 @@ const RestaurantDetailedDisplay = ({ restaurantDetailed }: Props) => {
           setIsVisible={setIsAddingComment}
         />)}
       <DeleteRestaurantButton restaurantId={restaurantDetailed.id} />
-    </div>
+    </Block>
   )
 }
 

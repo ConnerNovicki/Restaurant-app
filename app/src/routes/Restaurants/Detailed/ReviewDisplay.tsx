@@ -4,6 +4,7 @@ import useUserOwnsRestaurant from '../../../lib/useUserOwnsRestaurant';
 import { FormComponentProps } from 'antd/lib/form';
 import WrappedFormItem from '../../../components/WrappedFormItem';
 import useApiClient from '../../../lib/useApiClient';
+import moment from 'moment';
 
 interface FormProps {
   reply: string;
@@ -40,9 +41,10 @@ const ReviewDisplay = ({ review, restaurantId, form }: Props) => {
       Comments:
       {review.comments.map(comment => (
         <>
-          <div>
-            <div>{comment.text}</div>
-            <p>{comment.updatedAt}</p>
+          <div style={{ border: '1px solid black' }}>
+            <p>By: {comment.author.username}</p>
+            <p>{moment(comment.updatedAt).format('MM/DD/YYYY')}</p>
+            <p>{comment.text}</p>
           </div>
           {userOwnsRestaurant && review.comments.length < 2 && (
             <Form onSubmit={handleSubmit}>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Input, Button, Card, Form, message } from 'antd';
+import { Input, Button, Form, message, Row } from 'antd';
 import useApiClient from '../../lib/useApiClient';
 
 const Login = ({ setIsCreating }) => {
@@ -15,19 +15,19 @@ const Login = ({ setIsCreating }) => {
   }
 
   return (
-    <Card>
-      <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
-        <Form onSubmit={handleOnSubmit}>
-          <h2>Welcome to the Restaurants App!</h2>
-          <label>User name</label>
-          <Input value={username} onChange={e => setUsername(e.target.value)} />
-          <label>Password</label>
-          <Input.Password value={password} onChange={e => setPassword(e.target.value)} />
+    <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
+      <Form onSubmit={handleOnSubmit}>
+        <h2>Welcome to the Restaurants App!</h2>
+        <label>User name</label>
+        <Input value={username} onChange={e => setUsername(e.target.value)} />
+        <label>Password</label>
+        <Input.Password value={password} onChange={e => setPassword(e.target.value)} />
+        <Row className="footer-container">
           <Button htmlType="submit">Login</Button>
-        </Form>
-        <Button type="link" onClick={setIsCreating}>Don't have an account?</Button>
-      </div>
-    </Card>
+          <Button type="link" onClick={setIsCreating}>Don't have an account?</Button>
+        </Row>
+      </Form>
+    </div>
   )
 }
 

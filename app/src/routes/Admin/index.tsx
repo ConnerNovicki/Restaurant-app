@@ -4,6 +4,7 @@ import { IStoreContext, StoreContext } from '../../lib/context';
 import { Table, Button, message } from 'antd';
 import RestaurantExpanded from './RestaurantExpanded';
 import EditEntityModal, { Field as EditEntityModalField } from './EditEntityModal';
+import Block from '../../components/Block';
 
 export interface EditModalState {
   fields: EditEntityModalField[];
@@ -39,7 +40,7 @@ const Admin = () => {
   }
 
   return (
-    <>
+    <Block>
       <div>
         <h1>Users:</h1>
         <Table
@@ -126,7 +127,7 @@ const Admin = () => {
           onSubmit={editModalConfig.onSubmit}
           onClose={() => setEditModalConfig(null)}
         />)}
-    </>
+    </Block>
   )
 }
 

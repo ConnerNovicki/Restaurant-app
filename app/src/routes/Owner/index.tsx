@@ -4,6 +4,7 @@ import { Button, Modal } from 'antd';
 import AddRestaurant from './AddRestaurant';
 import useApiClient from '../../lib/useApiClient';
 import RestaurantView from '../../components/RestaurantView'
+import Block from '../../components/Block';
 
 const Owner = () => {
   const apiClient = useApiClient();
@@ -16,7 +17,7 @@ const Owner = () => {
   }, []);
 
   return (
-    <>
+    <Block>
       <div>
         <h2>Welcome Back {user.username}</h2>
         {!!userRestaurants.length
@@ -39,7 +40,7 @@ const Owner = () => {
         <div>Add new restaurant:</div>
         <AddRestaurant onClose={() => setIsModalVisible(false)} />
       </Modal>
-    </>
+    </Block>
   )
 }
 
