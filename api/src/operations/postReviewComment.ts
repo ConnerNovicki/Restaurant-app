@@ -6,7 +6,7 @@ export default async ({
   body,
   photon,
   req
-}: RestArgs<PostRestaurantReviewCommentArgs>): Promise<PostRestaurantReviewCommentResult> => {
+}: RestArgs<PostReviewCommentArgs>): Promise<PostReviewCommentResult> => {
   const user = await getUser(req, photon);
   const { comment } = body;
   const { id } = req.params;

@@ -9,6 +9,7 @@
     "noImplicitAny": false,
     "noImplicitThis": true,
     "alwaysStrict": true,
-    "lib": ["esnext", "dom"]
+    "lib": ["esnext", "dom"],
+    "esModuleInterop": true
   }
 }

@@ -1,12 +1,11 @@
 import { PostLoginArgs, PostLoginResult } from "../../Shared/restTypes";
-import { Photon } from "@prisma/photon";
 import { createToken, isValidPassword } from "../utils";
 import { RestArgs } from "../types";
 
-export default async ({ 
-  body, 
+export default async ({
+  body,
   photon
- }: RestArgs<PostLoginArgs>): Promise<PostLoginResult> => {
+}: RestArgs<PostLoginArgs>): Promise<PostLoginResult> => {
   const { username, password } = body;
   const user = await photon.users.findOne({
     where: { username },

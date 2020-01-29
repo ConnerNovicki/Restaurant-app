@@ -1,11 +1,12 @@
 import { GetRestaurantsResult } from "../../Shared/restTypes";
 import { RestArgs } from "../types";
+import { getUser } from "../utils";
 
 export default async ({
-  body,
   photon,
   req
 }: RestArgs<{}>): Promise<GetRestaurantsResult> => {
+  await getUser(req, photon);
   const restaurants = await photon.restaurants.findMany({
     select: {
       id: true,

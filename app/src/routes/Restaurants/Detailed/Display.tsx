@@ -4,11 +4,12 @@ import { Button } from 'antd';
 import CreateReviewModal from './CreateReviewModal'
 import DeleteRestaurantButton from '../../../components/DeleteRestaurantButton'
 import ReviewDisplay from './ReviewDisplay';
-import moment from 'moment';
 import useUserOwnsRestaurant from '../../../lib/useUserOwnsRestaurant';
 import Block from '../../../components/Block';
 import foodImg from '../../../assets/food1.png';
 import './styles.scss';
+import FeaturedReviewsDisplay from './FeaturedReviewsDisplay';
+import { getSpecificReviews } from '../../../lib/getSpecificReviews';
 
 interface Props {
   restaurantDetailed: GetRestaurantByIdResult;
@@ -18,31 +19,17 @@ const RestaurantDetailedDisplay = ({ restaurantDetailed }: Props) => {
   const userOwnsRestaurant = useUserOwnsRestaurant({ restaurantId: restaurantDetailed.id });
   const [isAddingComment, setIsAddingComment] = useState(false);
 
-  const highestRatedReview = restaurantDetailed.reviews.reduce(
-    (highestRatedReview, currReview) => currReview.rating > highestRatedReview.rating
-      ? currReview
-      : highestRatedReview,
-    restaurantDetailed.reviews[0],
-  )
-
-  const lowestRatedReview = restaurantDetailed.reviews.reduce(
-    (lowestRatedReview, currReview) => currReview.rating < lowestRatedReview.rating
-      ? currReview
-      : lowestRatedReview,
-    restaurantDetailed.reviews[0],
-  )
-
-  const filteredReviews = restaurantDetailed.reviews
-    .sort((a, b) => moment(b.createdAt).isBefore(a.createdAt) ? -1 : 1)
-    .filter(review => review.id !== highestRatedReview.id && review.id !== lowestRatedReview.id)
-    .slice(0, 3);
+  const {
+    lowestRatedReview,
+    highestRatedReview,
+    filteredReviewsByRating
+  } = getSpecificReviews(restaurantDetailed.reviews);
 
   return (
     <Block classNames={['restaurant-detailed']}>
       <div className="header">
         <div className="food-img" style={{ backgroundImage: `url(${foodImg})` }} />
         <div className="content">
-
           <h2>Name: {restaurantDetailed.name}</h2>
           <h3>Description: {restaurantDetailed.description}</h3>
           {!!restaurantDetailed.averageRating
@@ -52,48 +39,33 @@ const RestaurantDetailedDisplay = ({ restaurantDetailed }: Props) => {
         </div>
       </div>
 
-      {restaurantDetailed.reviews.length > 1 ? (
-        <>
-          {highestRatedReview && (
-            <>
-              <h4>Highest rated review:</h4>
-              <ReviewDisplay review={highestRatedReview} restaurantId={restaurantDetailed.id} />
-              <br />
-            </>
-          )}
+      <FeaturedReviewsDisplay
+        highestRatedReview={highestRatedReview}
+        lowestRatedReview={lowestRatedReview}
+        restaurantId={restaurantDetailed.id}
+      />
 
-          {lowestRatedReview && (
-            <>
-              <h4>Lowest rated review:</h4>
-              <ReviewDisplay review={lowestRatedReview} restaurantId={restaurantDetailed.id} />
-              <br />
-            </>
-          )}
-        </>
-      )
-        : lowestRatedReview && (
+      <div className="all-reviews-container">
+        {!!filteredReviewsByRating.length && (
           <>
-            <ReviewDisplay review={lowestRatedReview} restaurantId={restaurantDetailed.id} />
-            <br />
+            <h2>Recent Reviews: </h2>
+            <div className="all-reviews-grid">
+              {filteredReviewsByRating.map(review => (
+                <ReviewDisplay review={review} restaurantId={restaurantDetailed.id} />
+              ))}
+            </div>
           </>
-        )
-      }
-
-      {!!filteredReviews.length && (
-        <>
-          <h4>Other recent reviews: </h4>
-          {filteredReviews.map(review => (
-            <ReviewDisplay review={review} restaurantId={restaurantDetailed.id} />
-          ))}
-        </>
-      )}
-      {!userOwnsRestaurant && <Button onClick={() => setIsAddingComment(true)}>Add Review</Button>}
-      {isAddingComment && (
-        <CreateReviewModal
-          restaurantDetailed={restaurantDetailed}
-          setIsVisible={setIsAddingComment}
-        />)}
-      <DeleteRestaurantButton restaurantId={restaurantDetailed.id} />
+        )}
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        {!userOwnsRestaurant && <Button onClick={() => setIsAddingComment(true)}>Add Review</Button>}
+        {isAddingComment && (
+          <CreateReviewModal
+            restaurantDetailed={restaurantDetailed}
+            setIsVisible={setIsAddingComment}
+          />)}
+        <DeleteRestaurantButton restaurantId={restaurantDetailed.id} />
+      </div>
     </Block>
   )
 }

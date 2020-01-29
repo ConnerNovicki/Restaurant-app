@@ -41,7 +41,7 @@ const ReviewDisplay = ({ review, restaurantId, form }: Props) => {
       <Rate value={review.rating} disabled />
       <h2>Comments:</h2>
       {review.comments.map(comment => (
-        <div className="comment-item">
+        <Card>
           <div>
             <h4>{comment.author.username} ({moment(comment.updatedAt).format('MM/DD/YYYY')})</h4>
             <p>{comment.text}</p>
@@ -58,7 +58,7 @@ const ReviewDisplay = ({ review, restaurantId, form }: Props) => {
               <Button htmlType="submit">Reply</Button>
             </Form>
           )}
-        </div>
+        </Card>
       ))}
     </Card>
   )

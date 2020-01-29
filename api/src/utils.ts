@@ -6,16 +6,16 @@ import * as bcrypt from 'bcrypt';
 
 export const getUser = (req: express.Request, photon: Photon): Promise<User> => {
   const token = req.headers.authorization;
-  if (!token) throw new Error('');
+  if (!token) throw new Error('Not authorized');
 
   const parseToken = token.replace('Bearer ', '');
   const payload = Jwt.verify(parseToken, process.env.API_SECRET) as AuthPayload;
 
-  if (!payload || !payload.userId) throw new Error('')
+  if (!payload || !payload.userId) throw new Error('Not authorized')
 
   const user = photon.users.findOne({ where: { id: payload.userId } });
 
-  if (!user) throw new Error('');
+  if (!user) throw new Error('Not authorized');
 
   return user;
 }
@@ -32,8 +32,12 @@ export const handleOperation = async (
     const response = await operation();
     res.json(response);
   } catch (e) {
-    console.log('error: ', e)
-    res.sendStatus(400)
+    // console.log('error: ', e)
+    if (e && e.message && e.message.includes('Not authorized')) {
+      res.sendStatus(401);
+    } else {
+      res.sendStatus(400)
+    }
   }
 }
 
