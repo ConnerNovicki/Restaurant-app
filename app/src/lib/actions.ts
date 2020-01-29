@@ -1,5 +1,5 @@
 import { Action } from './reducer';
-import { GetRestaurantByIdResult, GetAllUsersResult } from '../../../api/Shared/restTypes';
+import { GetRestaurantByIdResult, GetAllUsersResult } from '../../generated/restTypes';
 
 export enum ActionTypes {
   SAVE_USER_RESTAURANTS = 'save-user-restaurants',

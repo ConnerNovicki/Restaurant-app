@@ -5,7 +5,7 @@ import {
   GetRestaurantsResult,
   GetUserResult,
   GetAllUsersResult
-} from '../../../api/Shared/restTypes';
+} from '../../generated/restTypes';
 
 export interface Action<TData> {
   type: ActionTypes;

@@ -4,9 +4,11 @@
   "license": "MIT",
   "scripts": {
     "dev": "prisma2 generate && env-cmd ts-node-dev src/index.ts",
+    "start": "npm run dev",
     "prisma-dev": "prisma2 dev",
     "seed": "ts-node prisma/seed.ts",
-    "test": "env-cmd mocha"
+    "test": "env-cmd mocha",
+    "deploy": "git push heroku master"
   },
   "dependencies": {
     "@prisma/client": "2.0.0-preview020.3",
@@ -15,7 +17,8 @@
     "body-parser": "1.19.0",
     "cors": "^2.8.5",
     "express": "4.17.1",
-    "jsonwebtoken": "^8.5.1"
+    "jsonwebtoken": "^8.5.1",
+    "prisma2": "2.0.0-preview020.3"
   },
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",
@@ -29,7 +32,6 @@
     "chai-http": "^4.3.0",
     "env-cmd": "^10.0.1",
     "mocha": "^7.0.1",
-    "prisma2": "2.0.0-preview020.3",
     "ts-node": "8.6.2",
     "ts-node-dev": "^1.0.0-pre.44",
     "typescript": "3.7.5"

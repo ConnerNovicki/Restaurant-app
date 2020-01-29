@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { GetRestaurantByIdResult } from '../../../../../api/Shared/restTypes'
+import { GetRestaurantByIdResult } from '../../../../generated/restTypes'
 import { Button } from 'antd';
 import CreateReviewModal from './CreateReviewModal'
 import DeleteRestaurantButton from '../../../components/DeleteRestaurantButton'

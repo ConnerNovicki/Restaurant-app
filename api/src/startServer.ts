@@ -30,7 +30,7 @@ export default async function (prisma: PrismaClient): Promise<Server> {
 
   app.use(cors({
     credentials: true,
-    origin: ['http://localhost:3000']
+    origin: ['http://localhost:3000', 'https://conner-novicki-toptal-app.herokuapp.com']
   }));
 
   app.post('/login', async (req: express.Request, res: express.Response) => {

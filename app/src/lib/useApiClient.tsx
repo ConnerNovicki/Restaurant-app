@@ -27,7 +27,7 @@ import {
   PutRestaurantArgs,
   PutCommentArgs,
   PutReviewArgs,
-} from '../../../api/Shared/restTypes';
+} from '../../generated/restTypes';
 
 export default () => {
   const history = useHistory();

@@ -1,9 +1,9 @@
 import React from 'react'
-import { Modal, Form, Button, DatePicker, Input, Slider, message, Rate } from 'antd';
+import { Modal, Form, Button, DatePicker, Input, message, Rate } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import useApiClient from '../../../lib/useApiClient';
 import WrappedFormItem from '../../../components/WrappedFormItem';
-import { GetRestaurantByIdResult } from '../../../../../api/Shared/restTypes';
+import { GetRestaurantByIdResult } from '../../../../generated/restTypes';
 import useUserOwnsRestaurant from '../../../lib/useUserOwnsRestaurant';
 
 interface Props {

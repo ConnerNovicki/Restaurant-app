@@ -1,5 +1,4 @@
-// const url = process.env.API_URL;
-const url = 'http://localhost:4000'
+const url = process.env.REACT_APP_API_URL;
 
 export const makeRequest = (path: string, method: 'GET' | 'POST' | 'DELETE' | 'PUT', body?: any) => {
   const token = localStorage.getItem('token');
