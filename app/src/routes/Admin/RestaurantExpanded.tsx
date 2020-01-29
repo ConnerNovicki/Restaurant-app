@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from 'react'
 import useApiClient from '../../lib/useApiClient'
 import { IStoreContext, StoreContext } from '../../lib/context';
-import { Button } from 'antd';
+import { Button, Card } from 'antd';
 import { EditModalState } from '.';
 
 interface Props {
@@ -37,27 +37,11 @@ const RestaurantExpanded = ({ restaurantId, onEdit }: Props) => {
 
   return (
     <div>
-      <h2>EXPANDED {restaurant.name}</h2>
+      <h2>{restaurant.name}</h2>
       {restaurant.reviews.map((review) => (
-        <div>
-          <h2>{review.id}</h2>
-          <p>{review.author.username}</p>
-          <p>{review.rating}</p>
-          {review.comments.map(comment => (
-            <div>
-              <p>{comment.text}</p>
-              <Button type="danger" onClick={() => handleDeleteComment(comment.id)}>Delete comment</Button>
-              <Button type="default" onClick={() => onEdit({
-                onSubmit: (values) => { apiClient.editComment(comment.id, values) },
-                fields: [
-                  {
-                    fieldName: 'text',
-                    name: 'Text',
-                  },
-                ]
-              })}>Edit</Button>
-            </div>
-          ))}
+        <Card>
+          <p>Username: {review.author.username}</p>
+          <p>Rating: {review.rating}</p>
           <Button type="danger" onClick={() => handleDeleteReview(review.id)}>Delete review</Button>
           <Button type="default" onClick={() => onEdit({
             onSubmit: (values) => { apiClient.editReview(review.id, values) },
@@ -70,11 +54,28 @@ const RestaurantExpanded = ({ restaurantId, onEdit }: Props) => {
               {
                 fieldName: 'rating',
                 name: 'Rating',
-                type: 'RatingSlider'
+                type: 'Rating',
+                defaultValue: review.rating
               },
             ]
           })}>Edit</Button>
-        </div>
+          {review.comments.map(comment => (
+            <Card>
+              <p>{comment.text}</p>
+              <Button type="danger" onClick={() => handleDeleteComment(comment.id)}>Delete comment</Button>
+              <Button type="default" onClick={() => onEdit({
+                onSubmit: (values) => { apiClient.editComment(comment.id, values) },
+                fields: [
+                  {
+                    fieldName: 'text',
+                    name: 'Text',
+                    defaultValue: comment.text,
+                  },
+                ]
+              })}>Edit</Button>
+            </Card>
+          ))}
+        </Card>
       ))}
     </div>
   )

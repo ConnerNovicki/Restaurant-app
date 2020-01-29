@@ -1,10 +1,11 @@
 import React from 'react'
-import { Card, Input, Button, Form, message } from 'antd';
+import { Card, Input, Button, Form, message, Rate } from 'antd';
 import useUserOwnsRestaurant from '../../../lib/useUserOwnsRestaurant';
 import { FormComponentProps } from 'antd/lib/form';
 import WrappedFormItem from '../../../components/WrappedFormItem';
 import useApiClient from '../../../lib/useApiClient';
 import moment from 'moment';
+import './styles.scss'
 
 interface FormProps {
   reply: string;
@@ -36,14 +37,13 @@ const ReviewDisplay = ({ review, restaurantId, form }: Props) => {
 
   return (
     <Card>
-      <h4>Rating: {review.rating}</h4>
-      <p>By: {review.author.username}</p>
-      Comments:
+      <h3>User: {review.author.username}</h3>
+      <Rate value={review.rating} disabled />
+      <h2>Comments:</h2>
       {review.comments.map(comment => (
-        <>
-          <div style={{ border: '1px solid black' }}>
-            <p>By: {comment.author.username}</p>
-            <p>{moment(comment.updatedAt).format('MM/DD/YYYY')}</p>
+        <div className="comment-item">
+          <div>
+            <h4>{comment.author.username} ({moment(comment.updatedAt).format('MM/DD/YYYY')})</h4>
             <p>{comment.text}</p>
           </div>
           {userOwnsRestaurant && review.comments.length < 2 && (
@@ -58,7 +58,7 @@ const ReviewDisplay = ({ review, restaurantId, form }: Props) => {
               <Button htmlType="submit">Reply</Button>
             </Form>
           )}
-        </>
+        </div>
       ))}
     </Card>
   )

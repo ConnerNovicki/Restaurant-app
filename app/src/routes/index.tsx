@@ -42,7 +42,7 @@ const WithLayout = ({ children, selectedKey }) => {
         </Menu>
         <LogoutButton />
       </Layout.Header>
-      <Layout.Content>
+      <Layout.Content style={{ minHeight: '100vh', padding: '2rem 0' }}>
         {children}
       </Layout.Content>
     </Layout>

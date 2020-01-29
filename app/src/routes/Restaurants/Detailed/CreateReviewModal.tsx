@@ -1,5 +1,5 @@
 import React from 'react'
-import { Modal, Form, Button, DatePicker, Input, Slider, message } from 'antd';
+import { Modal, Form, Button, DatePicker, Input, Slider, message, Rate } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import useApiClient from '../../../lib/useApiClient';
 import WrappedFormItem from '../../../components/WrappedFormItem';
@@ -46,7 +46,7 @@ const CreateReviewModal = ({ setIsVisible, form, restaurantDetailed }: Props) =>
           name="Rating"
           fieldName="rating"
           required
-          component={<Slider min={1} max={5} />}
+          component={<Rate />}
         />
         <WrappedFormItem
           form={form}

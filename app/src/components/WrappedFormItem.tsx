@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useEffect } from 'react'
 import { Form } from 'antd'
 import { FormComponentProps } from 'antd/lib/form'
 import { GetFieldDecoratorOptions } from 'antd/lib/form/Form';
@@ -8,18 +8,28 @@ interface Props {
   fieldName: string;
   name: string;
   component: ReactElement;
+  defaultValue?: any;
   required?: boolean;
   options?: GetFieldDecoratorOptions;
 }
 
-const WrappedFormItem = ({ 
+const WrappedFormItem = ({
   form,
   name,
   fieldName,
   required = false,
   component,
   options,
+  defaultValue,
 }: Props) => {
+  useEffect(() => {
+    if (!!defaultValue) {
+      form.setFieldsValue({ [fieldName]: defaultValue })
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const fieldOptions: GetFieldDecoratorOptions = required
     ? {
       ...(options || {}),

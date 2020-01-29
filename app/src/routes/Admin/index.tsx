@@ -56,18 +56,21 @@ const Admin = () => {
               render: (_, { id }) => <Button onClick={() => handleDeleteUser(id)}>Delete</Button>
             },
             {
-              render: (_, { id }) => (
+              render: (_, user) => (
                 <Button
                   onClick={() => setEditModalConfig({
-                    onSubmit: (values) => { apiClient.editUser(id, values) },
+                    onSubmit: (values) => { apiClient.editUser(user.id, values) },
                     fields: [
                       {
                         fieldName: 'role',
                         name: 'Role',
+                        defaultValue: user.role,
+                        type: 'Role'
                       },
                       {
                         fieldName: 'username',
                         name: 'User Name',
+                        defaultValue: user.username
                       },
                     ]
                   })}
@@ -98,18 +101,20 @@ const Admin = () => {
               render: (_, { id }) => <Button onClick={() => handleDeleteRestaurant(id)}>Delete</Button>
             },
             {
-              render: (_, { id }) => (
+              render: (_, restaurant) => (
                 <Button
                   onClick={() => setEditModalConfig({
-                    onSubmit: (values) => { apiClient.editRestaurant(id, values) },
+                    onSubmit: (values) => { apiClient.editRestaurant(restaurant.id, values) },
                     fields: [
                       {
                         fieldName: 'description',
                         name: 'Description',
+                        defaultValue: restaurant.description
                       },
                       {
                         fieldName: 'name',
                         name: 'Name',
+                        defaultValue: restaurant.name
                       },
                     ]
                   })}
