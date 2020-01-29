@@ -4,14 +4,14 @@ import { getUser } from "../utils";
 
 export default async ({
   body,
-  photon,
+  prisma,
   req
 }: RestArgs<PostRestaurantReviewArgs>): Promise<PostRestaurantReviewResult> => {
-  const user = await getUser(req, photon);
+  const user = await getUser(req, prisma);
   const { rating, comment, dateOfVisit } = body;
   const { id } = req.params;
 
-  const review = await photon.reviews.create({
+  const review = await prisma.reviews.create({
     data: {
       restaurant: { connect: { id } },
       rating,

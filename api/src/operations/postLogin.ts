@@ -4,10 +4,10 @@ import { RestArgs } from "../types";
 
 export default async ({
   body,
-  photon
+  prisma
 }: RestArgs<PostLoginArgs>): Promise<PostLoginResult> => {
   const { username, password } = body;
-  const user = await photon.users.findOne({
+  const user = await prisma.users.findOne({
     where: { username },
     select: {
       id: true,

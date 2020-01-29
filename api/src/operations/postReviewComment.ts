@@ -4,14 +4,14 @@ import { getUser } from "../utils";
 
 export default async ({
   body,
-  photon,
+  prisma,
   req
 }: RestArgs<PostReviewCommentArgs>): Promise<PostReviewCommentResult> => {
-  const user = await getUser(req, photon);
+  const user = await getUser(req, prisma);
   const { comment } = body;
   const { id } = req.params;
 
-  const createdComment = await photon.comments.create({
+  const createdComment = await prisma.comments.create({
     data: {
       review: { connect: { id } },
       text: comment,

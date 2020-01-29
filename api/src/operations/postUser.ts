@@ -4,12 +4,12 @@ import { RestArgs } from "../types";
 
 export default async ({
   body,
-  photon
+  prisma
 }: RestArgs<PostUserArgs>): Promise<PostUserResult> => {
   const { role, username, password } = body;
   const passwordSalt = await generateSalt(password);
 
-  const user = await photon.users.create({
+  const user = await prisma.users.create({
     data: {
       role,
       username,

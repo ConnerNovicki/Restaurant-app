@@ -1,10 +1,10 @@
-generator prisma_client {
-  provider = "prisma-client-js"
+generator photon {
+  provider = "photonjs"
 }
 
 datasource sqlite_db_dev {
   provider = "sqlite"
-  url      = env("PRISMA_URL")
+  url = "***"
 }
 
 enum Role {

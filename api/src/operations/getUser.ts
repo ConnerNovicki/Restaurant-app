@@ -4,9 +4,9 @@ import { RestArgs } from "../types";
 
 export default async ({
   body,
-  photon,
+  prisma,
   req
 }: RestArgs<{}>): Promise<GetUserResult> => {
-  const user = await getUser(req, photon);
+  const user = await getUser(req, prisma);
   return user;
 }

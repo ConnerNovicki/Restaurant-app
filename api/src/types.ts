@@ -1,5 +1,5 @@
 import * as express from 'express'
-import { Photon } from '@prisma/photon';
+import { PrismaClient } from '@prisma/client';
 
 export interface AuthPayload {
   userId: string;
@@ -8,5 +8,5 @@ export interface AuthPayload {
 export interface RestArgs<T> {
   body: T;
   req: express.Request
-  photon: Photon;
+  prisma: PrismaClient;
 }

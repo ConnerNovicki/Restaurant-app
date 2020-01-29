@@ -3,11 +3,11 @@ import { RestArgs } from "../types";
 import { getUser } from "../utils";
 
 export default async ({
-  photon,
+  prisma,
   req
 }: RestArgs<{}>): Promise<GetRestaurantsResult> => {
-  await getUser(req, photon);
-  const restaurants = await photon.restaurants.findMany({
+  await getUser(req, prisma);
+  const restaurants = await prisma.restaurants.findMany({
     select: {
       id: true,
       name: true,

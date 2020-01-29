@@ -1,4 +1,4 @@
-import { Photon } from '@prisma/photon'
+import { PrismaClient } from '@prisma/client'
 import bodyParser from 'body-parser'
 import express from 'express'
 import cors from 'cors'
@@ -23,7 +23,7 @@ import putRestaurant from './operations/putRestaurant';
 import putComment from './operations/putComment';
 import { Server } from 'net';
 
-export default async function (photon: Photon): Promise<Server> {
+export default async function (prisma: PrismaClient): Promise<Server> {
   const app = express()
 
   app.use(bodyParser.json())
@@ -35,7 +35,7 @@ export default async function (photon: Photon): Promise<Server> {
 
   app.post('/login', async (req: express.Request, res: express.Response) => {
     handleOperation(
-      () => postLogin({ body: req.body, photon, req }),
+      () => postLogin({ body: req.body, prisma, req }),
       res,
     )
   });
@@ -43,119 +43,119 @@ export default async function (photon: Photon): Promise<Server> {
   // create user
   app.post('/user', async (req: express.Request, res: express.Response) => {
     handleOperation(
-      () => postUser({ body: req.body, photon, req }),
+      () => postUser({ body: req.body, prisma, req }),
       res,
     )
   });
 
   app.get('/user/restaurants', async (req: express.Request, res: express.Response) => {
     handleOperation(
-      () => getUserRestaurants({ body: req.body, photon, req }),
+      () => getUserRestaurants({ body: req.body, prisma, req }),
       res,
     )
   });
 
   app.get('/restaurants', async (req: express.Request, res: express.Response) => {
     handleOperation(
-      () => getRestaurants({ body: req.body, photon, req }),
+      () => getRestaurants({ body: req.body, prisma, req }),
       res,
     )
   });
 
   app.post('/user/restaurant', async (req: express.Request, res: express.Response) => {
     handleOperation(
-      () => postUserRestaurant({ req, body: req.body, photon }),
+      () => postUserRestaurant({ req, body: req.body, prisma }),
       res,
     )
   });
 
   app.get('/user', async (req: express.Request, res: express.Response) => {
     handleOperation(
-      () => getUser({ req, body: req.body, photon }),
+      () => getUser({ req, body: req.body, prisma }),
       res,
     )
   })
 
   app.get('/restaurants/:id', async (req: express.Request, res: express.Response) => {
     handleOperation(
-      () => getRestaurantById({ req, body: req.body, photon }),
+      () => getRestaurantById({ req, body: req.body, prisma }),
       res,
     )
   });
 
   app.post('/restaurants/:id/review', async (req: express.Request, res: express.Response) => {
     handleOperation(
-      () => postRestaurantReview({ req, body: req.body, photon }),
+      () => postRestaurantReview({ req, body: req.body, prisma }),
       res,
     )
   })
 
   app.get('/admin/users', async (req: express.Request, res: express.Response) => {
     handleOperation(
-      () => getAllUsers({ req, body: req.body, photon }),
+      () => getAllUsers({ req, body: req.body, prisma }),
       res,
     )
   });
 
   app.put('/user/:id', async (req: express.Request, res: express.Response) => {
     handleOperation(
-      () => putUser({ req, body: req.body, photon }),
+      () => putUser({ req, body: req.body, prisma }),
       res,
     )
   })
 
   app.put('/review/:id', async (req: express.Request, res: express.Response) => {
     handleOperation(
-      () => putReview({ req, body: req.body, photon }),
+      () => putReview({ req, body: req.body, prisma }),
       res,
     )
   })
 
   app.put('/restaurant/:id', async (req: express.Request, res: express.Response) => {
     handleOperation(
-      () => putRestaurant({ req, body: req.body, photon }),
+      () => putRestaurant({ req, body: req.body, prisma }),
       res,
     )
   })
 
   app.put('/comment/:id', async (req: express.Request, res: express.Response) => {
     handleOperation(
-      () => putComment({ req, body: req.body, photon }),
+      () => putComment({ req, body: req.body, prisma }),
       res,
     )
   })
 
   app.delete('/user/:id', async (req: express.Request, res: express.Response) => {
     handleOperation(
-      () => deleteUser({ req, body: req.body, photon }),
+      () => deleteUser({ req, body: req.body, prisma }),
       res,
     )
   })
 
   app.delete('/review/:id', async (req: express.Request, res: express.Response) => {
     handleOperation(
-      () => deleteReview({ req, body: req.body, photon }),
+      () => deleteReview({ req, body: req.body, prisma }),
       res,
     )
   })
 
   app.delete('/restaurant/:id', async (req: express.Request, res: express.Response) => {
     handleOperation(
-      () => deleteRestaurant({ req, body: req.body, photon }),
+      () => deleteRestaurant({ req, body: req.body, prisma }),
       res,
     )
   })
 
   app.delete('/comment/:id', async (req: express.Request, res: express.Response) => {
     handleOperation(
-      () => deleteComment({ req, body: req.body, photon }),
+      () => deleteComment({ req, body: req.body, prisma }),
       res,
     )
   })
 
   app.post('/review/:id/comment', (req: express.Request, res: express.Response) => {
     handleOperation(
-      () => postReviewComment({ req, body: req.body, photon }),
+      () => postReviewComment({ req, body: req.body, prisma }),
       res,
     )
   })

@@ -4,17 +4,17 @@ import { getUser } from "../utils";
 
 export default async ({
   body,
-  photon,
+  prisma,
   req
 }: RestArgs<{}>): Promise<DeleteReviewResult> => {
-  const user = await getUser(req, photon);
+  const user = await getUser(req, prisma);
   if (user.role !== 'ADMIN') throw new Error('You cannot access this information')
 
   const { id } = req.params;
 
-  await photon.comments.deleteMany({ where: { review: { id } } });
+  await prisma.comments.deleteMany({ where: { review: { id } } });
 
-  const deletedReview = await photon.reviews.delete({
+  const deletedReview = await prisma.reviews.delete({
     where: { id },
     select: {
       id: true,

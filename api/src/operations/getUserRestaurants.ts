@@ -4,15 +4,15 @@ import { RestArgs } from "../types";
 
 export default async ({
   body,
-  photon,
+  prisma,
   req
 }: RestArgs<{}>): Promise<GetUserRestaurantsResult> => {
-  const user = await getUser(req, photon);
+  const user = await getUser(req, prisma);
   if (user.role !== 'OWNER') {
     throw new Error('Only owners can query their restaurants.')
   }
 
-  const restaurants = await photon.restaurants.findMany({
+  const restaurants = await prisma.restaurants.findMany({
     where: {
       owner: { id: user.id },
     },

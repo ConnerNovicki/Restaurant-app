@@ -1,10 +1,10 @@
 import * as express from 'express'
-import { User, Photon } from '@prisma/photon';
+import { User, PrismaClient } from '@prisma/client';
 import { AuthPayload } from './types';
 import * as Jwt from 'jsonwebtoken'
 import * as bcrypt from 'bcrypt';
 
-export const getUser = (req: express.Request, photon: Photon): Promise<User> => {
+export const getUser = (req: express.Request, prisma: PrismaClient): Promise<User> => {
   const token = req.headers.authorization;
   if (!token) throw new Error('Not authorized');
 
@@ -13,7 +13,7 @@ export const getUser = (req: express.Request, photon: Photon): Promise<User> => 
 
   if (!payload || !payload.userId) throw new Error('Not authorized')
 
-  const user = photon.users.findOne({ where: { id: payload.userId } });
+  const user = prisma.users.findOne({ where: { id: payload.userId } });
 
   if (!user) throw new Error('Not authorized');
 
@@ -32,7 +32,7 @@ export const handleOperation = async (
     const response = await operation();
     res.json(response);
   } catch (e) {
-    // console.log('error: ', e)
+    console.log('error: ', e)
     if (e && e.message && e.message.includes('Not authorized')) {
       res.sendStatus(401);
     } else {

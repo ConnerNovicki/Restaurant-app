@@ -1,5 +1,5 @@
 import startServer from './startServer'
-import { Photon } from '@prisma/photon';
+import { PrismaClient } from '@prisma/client';
 
-const photon = new Photon();
-startServer(photon);
+const prisma = new PrismaClient();
+startServer(prisma);

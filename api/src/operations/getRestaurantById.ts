@@ -3,10 +3,10 @@ import { RestArgs } from "../types";
 
 export default async ({
   body,
-  photon,
+  prisma,
   req
 }: RestArgs<GetRestaurantByIdArgs>): Promise<GetRestaurantByIdResult> => {
-  const restaurant = await photon.restaurants.findOne({
+  const restaurant = await prisma.restaurants.findOne({
     where: { id: req.params.id },
     select: {
       id: true,

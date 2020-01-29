@@ -4,13 +4,13 @@ import { getUser } from "../utils";
 
 export default async ({
   body,
-  photon,
+  prisma,
   req
 }: RestArgs<{}>): Promise<DeleteRestaurantResult> => {
-  const user = await getUser(req, photon);
+  const user = await getUser(req, prisma);
   const { id } = req.params;
 
-  const userCanEdit = await photon.users.findOne({
+  const userCanEdit = await prisma.users.findOne({
     where: { id: user.id },
     select: {
       ownedRestaurants: {
@@ -25,11 +25,11 @@ export default async ({
     throw new Error('You cannot access this information')
   }
 
-  const reviews = await photon.reviews.findMany({
+  const reviews = await prisma.reviews.findMany({
     where: { restaurant: { id } },
   });
 
-  await photon.comments.deleteMany({
+  await prisma.comments.deleteMany({
     where: {
       review: {
         id: { in: reviews.map(r => r.id) }
@@ -37,11 +37,11 @@ export default async ({
     }
   });
 
-  await photon.reviews.deleteMany({
+  await prisma.reviews.deleteMany({
     where: { restaurant: { id } },
   });
 
-  const deletedRestaurant = await photon.restaurants.delete({
+  const deletedRestaurant = await prisma.restaurants.delete({
     where: { id },
     select: {
       id: true,

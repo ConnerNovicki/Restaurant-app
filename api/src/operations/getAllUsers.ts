@@ -4,13 +4,13 @@ import { getUser } from "../utils";
 
 export default async ({
   body,
-  photon,
+  prisma,
   req
 }: RestArgs<{}>): Promise<GetAllUsersResult> => {
-  const user = await getUser(req, photon);
+  const user = await getUser(req, prisma);
   if (user.role !== 'ADMIN') throw new Error('You cannot access this information')
 
-  const users = await photon.users.findMany({
+  const users = await prisma.users.findMany({
     select: {
       id: true,
       username: true,

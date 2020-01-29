@@ -3,12 +3,12 @@ import { RestArgs } from "../types";
 
 export default async ({
   body,
-  photon,
+  prisma,
   req,
 }: RestArgs<PutUserArgs>): Promise<PutResult> => {
   const { id } = req.params;
 
-  const user = await photon.users.update({
+  const user = await prisma.users.update({
     where: { id },
     data: body,
     select: { id: true },
