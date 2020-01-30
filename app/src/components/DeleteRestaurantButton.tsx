@@ -14,7 +14,7 @@ const DeleteRestaurantButton = ({ restaurantId }) => {
   const handleOnClick = () => {
     apiClient.deleteRestaurant(restaurantId)
       .then(() => history.push('/restaurants'))
-      .catch(err => message.error(err.message));
+      .catch(err => message.error(`Error deleting restaurant: ${err.message}`));
   }
 
   return userOwnsRestaurant || (user && user.role === 'ADMIN')

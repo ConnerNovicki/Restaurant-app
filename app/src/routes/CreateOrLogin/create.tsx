@@ -1,34 +1,56 @@
-import React, { useState } from 'react'
-import { Row, Button, Form, Input, message, Select } from 'antd'
+import React from 'react'
+import { Row, Button, Form, Input, message } from 'antd'
 import useApiClient from '../../lib/useApiClient';
+import WrappedFormItem from '../../components/FormComponents/WrappedFormItem';
+import { FormComponentProps } from 'antd/lib/form';
+import SelectRole from '../../components/FormComponents/SelectRole'
 
-const CreateAccount = ({ setIsCreating }) => {
+interface Props {
+  setIsCreating: () => void;
+  form: FormComponentProps['form']
+}
+
+const CreateAccount = ({ setIsCreating, form }: Props) => {
   const apiClient = useApiClient();
-  const [role, setRole] = useState<'OWNER' | 'ADMIN' | 'USER'>('USER');
-  const [username, setUsername] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
 
   const handleOnSubmit = (evt) => {
     evt.preventDefault()
 
-    apiClient.createUser({ username, role, password })
-      .catch(err => message.error(err.message));
+    form.validateFields((err, values) => {
+      if (err) return;
+
+      const { username, role, password } = values;
+
+      apiClient.createUser({ username, role, password })
+        .catch(err => message.error('We cannot create an account at this time.'));
+    })
   }
 
   return (
     <div>
       <Form onSubmit={handleOnSubmit}>
         <h2>Create an account</h2>
-        <label>Role</label>
-        <Select value={role} onChange={v => setRole(v)}>
-          <Select.Option value="USER">User</Select.Option>
-          <Select.Option value="OWNER">Owner</Select.Option>
-          <Select.Option value="ADMIN">Admin</Select.Option>
-        </Select>
-        <label>User name</label>
-        <Input value={username} onChange={e => setUsername(e.target.value)} />
-        <label>Password</label>
-        <Input.Password value={password} onChange={e => setPassword(e.target.value)} />
+        <WrappedFormItem
+          form={form}
+          fieldName="role"
+          name="Role"
+          required
+          component={(<SelectRole />)}
+        />
+        <WrappedFormItem
+          form={form}
+          fieldName="username"
+          name="User Name"
+          required
+          component={<Input />}
+        />
+        <WrappedFormItem
+          form={form}
+          fieldName="password"
+          name="Password"
+          required
+          component={<Input.Password />}
+        />
         <Row className="footer-container">
           <Button htmlType="submit">Create Account</Button>
           <Button type="link" onClick={setIsCreating}>Back to login</Button>
@@ -38,4 +60,4 @@ const CreateAccount = ({ setIsCreating }) => {
   )
 }
 
-export default CreateAccount;
+export default Form.create<Props>()(CreateAccount);

@@ -2,7 +2,7 @@ import React from 'react'
 import { Modal, Form, Button, DatePicker, Input, message, Rate } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import useApiClient from '../../../lib/useApiClient';
-import WrappedFormItem from '../../../components/WrappedFormItem';
+import WrappedFormItem from '../../../components/FormComponents/WrappedFormItem';
 import { GetRestaurantByIdResult } from '../../../../generated/restTypes';
 import useUserOwnsRestaurant from '../../../lib/useUserOwnsRestaurant';
 

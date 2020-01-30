@@ -44,7 +44,7 @@ const WrappedFormItem = ({
     : options;
 
   return (
-    <Form.Item>
+    <Form.Item style={{ margin: 0 }}>
       <h4>{name}</h4>
       {form.getFieldDecorator(fieldName, fieldOptions)(
         component

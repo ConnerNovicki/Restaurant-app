@@ -1,7 +1,8 @@
 import React from 'react'
-import WrappedFormItem from '../../components/WrappedFormItem';
-import { Input, Modal, Button, DatePicker, Select, Rate } from 'antd';
+import WrappedFormItem from '../../components/FormComponents/WrappedFormItem';
+import { Input, Modal, Button, DatePicker, Rate } from 'antd';
 import Form, { FormComponentProps } from 'antd/lib/form';
+import SelectRole from '../../components/FormComponents/SelectRole';
 
 export interface Field {
   name: string;
@@ -38,16 +39,9 @@ const EditEntityModal = ({ fields, form, onSubmit, onClose }: Props) => {
               case 'DatePicker':
                 return <DatePicker />;
               case 'Rating':
-                console.log(defaultValue)
                 return <Rate />
               case 'Role':
-                return (
-                  <Select>
-                    <Select.Option value="USER">User</Select.Option>
-                    <Select.Option value="OWNER">Owner</Select.Option>
-                    <Select.Option value="ADMIN">Admin</Select.Option>
-                  </Select>
-                )
+                return <SelectRole />
               case 'Input':
               default:
                 return <Input />

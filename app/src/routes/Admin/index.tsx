@@ -27,7 +27,7 @@ const Admin = () => {
         apiClient.fetchAllUsers()
         apiClient.fetchAllRestaurants();
       })
-      .catch(err => message.error(err.message));
+      .catch(err => message.error(`Error deleting user: ${err.message}`));
   }
 
   const handleDeleteRestaurant = (restaurantId: string) => {
@@ -36,7 +36,7 @@ const Admin = () => {
         apiClient.fetchAllUsers()
         apiClient.fetchAllRestaurants();
       })
-      .catch(err => message.error(err.message));
+      .catch(err => message.error(`Error deleting restaurant: ${err.message}`));
   }
 
   const handleEditUser = (userId: string, values) => {

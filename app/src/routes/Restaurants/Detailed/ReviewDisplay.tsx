@@ -2,7 +2,7 @@ import React from 'react'
 import { Card, Input, Button, Form, message, Rate } from 'antd';
 import useUserOwnsRestaurant from '../../../lib/useUserOwnsRestaurant';
 import { FormComponentProps } from 'antd/lib/form';
-import WrappedFormItem from '../../../components/WrappedFormItem';
+import WrappedFormItem from '../../../components/FormComponents/WrappedFormItem';
 import useApiClient from '../../../lib/useApiClient';
 import moment from 'moment';
 import './styles.scss'
@@ -31,7 +31,7 @@ const ReviewDisplay = ({ review, restaurantId, form }: Props) => {
 
       apiClient.createCommentOnReview({ comment: reply }, review.id)
         .then(() => apiClient.fetchRestaurantById({ id: restaurantId }))
-        .catch(err => message.error(err.message))
+        .catch(err => message.error(`Error creating comment: ${err.message}`))
     })
   }
 

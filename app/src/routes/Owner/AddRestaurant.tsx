@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form, Input, Button } from 'antd'
 import useApiClient from '../../lib/useApiClient';
-import WrappedFormItem from '../../components/WrappedFormItem';
+import WrappedFormItem from '../../components/FormComponents/WrappedFormItem';
 import { FormComponentProps } from 'antd/lib/form';
 
 interface FormProps {
