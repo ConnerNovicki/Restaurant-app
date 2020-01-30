@@ -39,6 +39,22 @@ const Admin = () => {
       .catch(err => message.error(err.message));
   }
 
+  const handleEditUser = (userId: string, values) => {
+    apiClient.editUser(userId, values)
+      .then(() => {
+        apiClient.fetchAllUsers()
+        apiClient.fetchAllRestaurants();
+      })
+  }
+
+  const handleEditRestaurant = (restaurantId: string, values) => {
+    apiClient.editRestaurant(restaurantId, values)
+      .then(() => {
+        apiClient.fetchAllUsers()
+        apiClient.fetchAllRestaurants();
+      })
+  }
+
   return (
     <Block>
       <div>
@@ -46,20 +62,15 @@ const Admin = () => {
         <Table
           dataSource={state.allUsers}
           columns={[
-            {
-              render: (_, { username }) => <span>{username}</span>
-            },
-            {
-              render: (_, { id }) => <span>{id}</span>
-            },
-            {
-              render: (_, { id }) => <Button onClick={() => handleDeleteUser(id)}>Delete</Button>
-            },
+            { title: 'Username', dataIndex: 'username' },
+            { title: 'Created at', dataIndex: 'createdAt' },
+            { title: 'Role', dataIndex: 'role' },
+            { render: (_, { id }) => <Button onClick={() => handleDeleteUser(id)}>Delete</Button> },
             {
               render: (_, user) => (
                 <Button
                   onClick={() => setEditModalConfig({
-                    onSubmit: (values) => { apiClient.editUser(user.id, values) },
+                    onSubmit: (values) => handleEditUser(user.id, values),
                     fields: [
                       {
                         fieldName: 'role',
@@ -91,20 +102,16 @@ const Admin = () => {
             />
           )}
           columns={[
-            {
-              render: (_, { name }) => <span>{name}</span>
-            },
-            {
-              render: (_, { id }) => <span>{id}</span>
-            },
-            {
-              render: (_, { id }) => <Button onClick={() => handleDeleteRestaurant(id)}>Delete</Button>
-            },
+            { title: 'Name', dataIndex: 'name' },
+            { title: 'Description', dataIndex: 'description' },
+            { title: 'Average Rating', dataIndex: 'averageRating' },
+            { title: 'Comments', dataIndex: 'numComments' },
+            { render: (_, { id }) => <Button onClick={() => handleDeleteRestaurant(id)}>Delete</Button> },
             {
               render: (_, restaurant) => (
                 <Button
                   onClick={() => setEditModalConfig({
-                    onSubmit: (values) => { apiClient.editRestaurant(restaurant.id, values) },
+                    onSubmit: (values) => handleEditRestaurant(restaurant.id, values),
                     fields: [
                       {
                         fieldName: 'description',

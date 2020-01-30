@@ -30,6 +30,16 @@ const RestaurantExpanded = ({ restaurantId, onEdit }: Props) => {
       .then(() => apiClient.fetchRestaurantById({ id: restaurantId }))
   }
 
+  const handleEditReview = (reviewId: string, values) => {
+    apiClient.editReview(reviewId, values)
+      .then(() => apiClient.fetchRestaurantById({ id: restaurantId }))
+  }
+
+  const handleEditComment = (commentId: string, values) => {
+    apiClient.editComment(commentId, values)
+      .then(() => apiClient.fetchRestaurantById({ id: restaurantId }))
+  }
+
   const restaurant = state.restaurantsById[restaurantId];
   if (!restaurant) {
     return <div>loading...</div>
@@ -39,12 +49,15 @@ const RestaurantExpanded = ({ restaurantId, onEdit }: Props) => {
     <div>
       <h2>{restaurant.name}</h2>
       {restaurant.reviews.map((review) => (
-        <Card>
-          <p>Username: {review.author.username}</p>
+        <Card style={{ margin: '0 0 1rem 0' }}>
+          <h4>Username: {review.author.username}</h4>
+          <p>Author: {review.author.username}</p>
           <p>Rating: {review.rating}</p>
+          <p>Date of visit: {review.dateOfVisit}</p>
+          <p>Created at: {review.createdAt}</p>
           <Button type="danger" onClick={() => handleDeleteReview(review.id)}>Delete review</Button>
           <Button type="default" onClick={() => onEdit({
-            onSubmit: (values) => { apiClient.editReview(review.id, values) },
+            onSubmit: (values) => handleEditReview(review.id, values),
             fields: [
               {
                 fieldName: 'dateOfVisit',
@@ -60,11 +73,13 @@ const RestaurantExpanded = ({ restaurantId, onEdit }: Props) => {
             ]
           })}>Edit</Button>
           {review.comments.map(comment => (
-            <Card>
-              <p>{comment.text}</p>
+            <Card style={{ margin: '1rem 0' }}>
+              <h4>Author: {comment.author.username}</h4>
+              <h5>Time: {comment.updatedAt}</h5>
+              <p>Text: {comment.text}</p>
               <Button type="danger" onClick={() => handleDeleteComment(comment.id)}>Delete comment</Button>
               <Button type="default" onClick={() => onEdit({
-                onSubmit: (values) => { apiClient.editComment(comment.id, values) },
+                onSubmit: (values) => handleEditComment(comment.id, values),
                 fields: [
                   {
                     fieldName: 'text',

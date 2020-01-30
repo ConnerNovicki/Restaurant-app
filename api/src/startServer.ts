@@ -166,8 +166,8 @@ export default async function (prisma: PrismaClient): Promise<Server> {
 
   app.put('/user/:id', async (req: express.Request, res: express.Response) => {
     const body = await yup.object<PutUserArgs>({
-      username: yup.string().required(),
-      role: yup.mixed().required(),
+      username: yup.string(),
+      role: yup.mixed(),
     })
       .validate(req.body)
       .catch((e) => {
@@ -183,8 +183,8 @@ export default async function (prisma: PrismaClient): Promise<Server> {
 
   app.put('/review/:id', async (req: express.Request, res: express.Response) => {
     const body = await yup.object<PutReviewArgs>({
-      rating: yup.number().required(),
-      dateOfVisit: yup.mixed().required(),
+      rating: yup.number(),
+      dateOfVisit: yup.mixed(),
     })
       .validate(req.body)
       .catch((e) => {
@@ -200,8 +200,8 @@ export default async function (prisma: PrismaClient): Promise<Server> {
 
   app.put('/restaurant/:id', async (req: express.Request, res: express.Response) => {
     const body = await yup.object<PutRestaurantArgs>({
-      name: yup.string().required(),
-      description: yup.string().required(),
+      name: yup.string(),
+      description: yup.string(),
     })
       .validate(req.body)
       .catch((e) => {
@@ -217,7 +217,7 @@ export default async function (prisma: PrismaClient): Promise<Server> {
 
   app.put('/comment/:id', async (req: express.Request, res: express.Response) => {
     const body = await yup.object<PutCommentArgs>({
-      text: yup.string().required(),
+      text: yup.string(),
     })
       .validate(req.body)
       .catch((e) => {

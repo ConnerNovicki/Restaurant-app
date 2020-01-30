@@ -11,7 +11,7 @@
     "build": "tsc",
     "prisma-dev": "prisma2 generate --watch",
     "test": "env-cmd mocha",
-    "deploy": "npm run build && NODE_ENV=test npm run test && git push heroku master"
+    "deploy": "NODE_ENV=test npm run test && git push heroku master"
   },
   "dependencies": {
     "@prisma/client": "2.0.0-preview020.3",
