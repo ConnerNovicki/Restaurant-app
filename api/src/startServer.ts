@@ -1,8 +1,8 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, Role } from '@prisma/client'
 import bodyParser from 'body-parser'
 import express from 'express'
 import postLogin from './operations/postLogin';
-import { handleOperation } from './utils';
+import { handleOperation, isLoggedIn } from './utils';
 import postUser from './operations/postUser';
 import getUserRestaurants from './operations/getUserRestaurants'
 import postUserRestaurant from './operations/postUserRestaurant';
@@ -23,6 +23,19 @@ import putComment from './operations/putComment';
 import { Server } from 'net';
 import cors from 'cors';
 
+import * as yup from 'yup';
+import {
+  PostLoginArgs,
+  PostUserArgs,
+  PostUserRestaurantArgs,
+  PostRestaurantReviewArgs,
+  PutUserArgs,
+  PutReviewArgs,
+  PutRestaurantArgs,
+  PutCommentArgs,
+  PostReviewCommentArgs
+} from '../Shared/restTypes';
+
 export default async function (prisma: PrismaClient): Promise<Server> {
   const app = express()
 
@@ -33,19 +46,53 @@ export default async function (prisma: PrismaClient): Promise<Server> {
     origin: ['http://localhost:3000', 'https://conner-novicki-toptal-app.herokuapp.com']
   }))
 
+  // NON-AUTHENTICATED ROUTES //
+
   app.post('/login', async (req: express.Request, res: express.Response) => {
+    const body = await yup.object<PostLoginArgs>({
+      username: yup.string(),
+      password: yup.string(),
+    })
+      .validate(req.body)
+      .catch((e) => {
+        res.sendStatus(400)
+        throw new Error(`Incorrect args: ${e.message}`)
+      })
+
     handleOperation(
-      () => postLogin({ body: req.body, prisma, req }),
+      () => postLogin({ body, prisma, req }),
       res,
     )
   });
 
   app.post('/user', async (req: express.Request, res: express.Response) => {
+    const body = await yup.object<PostUserArgs>({
+      username: yup.string().required(),
+      password: yup.string().required(),
+      role: yup.mixed().required(),
+    })
+      .validate(req.body)
+      .catch((e) => {
+        res.sendStatus(400)
+        throw new Error(`Incorrect args: ${e.message}`)
+      })
+
     handleOperation(
-      () => postUser({ body: req.body, prisma, req }),
+      () => postUser({ body, prisma, req }),
       res,
     )
   });
+
+  // AUTHENTICATED ROUTES //
+
+  app.use((req, res, next) => {
+    if (!isLoggedIn(req)) {
+      res.sendStatus(401)
+      throw new Error('Not authorized');
+    }
+
+    next();
+  })
 
   app.get('/user/restaurants', async (req: express.Request, res: express.Response) => {
     handleOperation(
@@ -62,8 +109,18 @@ export default async function (prisma: PrismaClient): Promise<Server> {
   });
 
   app.post('/user/restaurant', async (req: express.Request, res: express.Response) => {
+    const body = await yup.object<PostUserRestaurantArgs>({
+      name: yup.string(),
+      description: yup.string().required(),
+    })
+      .validate(req.body)
+      .catch((e) => {
+        res.sendStatus(400)
+        throw new Error(`Incorrect args: ${e.message}`)
+      })
+
     handleOperation(
-      () => postUserRestaurant({ req, body: req.body, prisma }),
+      () => postUserRestaurant({ req, body, prisma }),
       res,
     )
   });
@@ -83,8 +140,19 @@ export default async function (prisma: PrismaClient): Promise<Server> {
   });
 
   app.post('/restaurants/:id/review', async (req: express.Request, res: express.Response) => {
+    const body = await yup.object<PostRestaurantReviewArgs>({
+      rating: yup.number().required(),
+      comment: yup.string().required(),
+      dateOfVisit: yup.mixed().required(),
+    })
+      .validate(req.body)
+      .catch((e) => {
+        res.sendStatus(400)
+        throw new Error(`Incorrect args: ${e.message}`)
+      })
+
     handleOperation(
-      () => postRestaurantReview({ req, body: req.body, prisma }),
+      () => postRestaurantReview({ req, body, prisma }),
       res,
     )
   })
@@ -97,29 +165,68 @@ export default async function (prisma: PrismaClient): Promise<Server> {
   });
 
   app.put('/user/:id', async (req: express.Request, res: express.Response) => {
+    const body = await yup.object<PutUserArgs>({
+      username: yup.string().required(),
+      role: yup.mixed().required(),
+    })
+      .validate(req.body)
+      .catch((e) => {
+        res.sendStatus(400)
+        throw new Error(`Incorrect args: ${e.message}`)
+      })
+
     handleOperation(
-      () => putUser({ req, body: req.body, prisma }),
+      () => putUser({ req, body, prisma }),
       res,
     )
   })
 
   app.put('/review/:id', async (req: express.Request, res: express.Response) => {
+    const body = await yup.object<PutReviewArgs>({
+      rating: yup.number().required(),
+      dateOfVisit: yup.mixed().required(),
+    })
+      .validate(req.body)
+      .catch((e) => {
+        res.sendStatus(400)
+        throw new Error(`Incorrect args: ${e.message}`)
+      })
+
     handleOperation(
-      () => putReview({ req, body: req.body, prisma }),
+      () => putReview({ req, body, prisma }),
       res,
     )
   })
 
   app.put('/restaurant/:id', async (req: express.Request, res: express.Response) => {
+    const body = await yup.object<PutRestaurantArgs>({
+      name: yup.string().required(),
+      description: yup.string().required(),
+    })
+      .validate(req.body)
+      .catch((e) => {
+        res.sendStatus(400)
+        throw new Error(`Incorrect args: ${e.message}`)
+      })
+
     handleOperation(
-      () => putRestaurant({ req, body: req.body, prisma }),
+      () => putRestaurant({ req, body, prisma }),
       res,
     )
   })
 
   app.put('/comment/:id', async (req: express.Request, res: express.Response) => {
+    const body = await yup.object<PutCommentArgs>({
+      text: yup.string().required(),
+    })
+      .validate(req.body)
+      .catch((e) => {
+        res.sendStatus(400)
+        throw new Error(`Incorrect args: ${e.message}`)
+      })
+
     handleOperation(
-      () => putComment({ req, body: req.body, prisma }),
+      () => putComment({ req, body, prisma }),
       res,
     )
   })
@@ -152,9 +259,18 @@ export default async function (prisma: PrismaClient): Promise<Server> {
     )
   })
 
-  app.post('/review/:id/comment', (req: express.Request, res: express.Response) => {
+  app.post('/review/:id/comment', async (req: express.Request, res: express.Response) => {
+    const body = await yup.object<PostReviewCommentArgs>({
+      comment: yup.string().required(),
+    })
+      .validate(req.body)
+      .catch((e) => {
+        res.sendStatus(400)
+        throw new Error(`Incorrect args: ${e.message}`)
+      })
+
     handleOperation(
-      () => postReviewComment({ req, body: req.body, prisma }),
+      () => postReviewComment({ req, body, prisma }),
       res,
     )
   })

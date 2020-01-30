@@ -4,6 +4,18 @@ import { AuthPayload } from './types';
 import * as Jwt from 'jsonwebtoken'
 import * as bcrypt from 'bcrypt';
 
+export const isLoggedIn = (req: express.Request): boolean => {
+  const token = req.headers.authorization;
+  if (!token) return false;
+
+  const parseToken = token.replace('Bearer ', '');
+  const payload = Jwt.verify(parseToken, process.env.API_SECRET) as AuthPayload;
+
+  if (!payload || !payload.userId) return false;
+
+  return true;
+}
+
 export const getUser = (req: express.Request, prisma: PrismaClient): Promise<User> => {
   const token = req.headers.authorization;
   if (!token) throw new Error('Not authorized');
