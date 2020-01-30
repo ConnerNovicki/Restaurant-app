@@ -29,3 +29,8 @@ TopTal project
 
 * `cd app`
 * Start dev server localhost:4000 `npm run start`
+
+## Deployment
+
+* API - https://conner-novicki-toptal-api.herokuapp.com/
+* APP - https://conner-novicki-toptal-app.herokuapp.com/
