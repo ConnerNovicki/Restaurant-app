@@ -1,7 +1,7 @@
 import startServer from "../src/startServer"
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
-import { Photon } from "@prisma/photon";
+import { PrismaClient } from "@prisma/client";
 import { Server } from "net";
 import { generateSalt } from "../src/utils";
 
@@ -59,7 +59,7 @@ describe('with mocked ORM', () => {
   let token: string;
 
   before(async () => {
-    server = await startServer(mockPhoton as any as Photon)
+    server = await startServer(mockPhoton as any as PrismaClient)
   })
 
   it('should create a user', async () => {

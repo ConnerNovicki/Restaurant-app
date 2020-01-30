@@ -1,4 +1,30 @@
-import { User, Role, Restaurant, Review, Comment } from "@prisma/client";
+type User = {
+  id: string;
+  role: Role;
+  username: string;
+  createdAt: Date;
+}
+
+type Role = 'OWNER' | 'ADMIN' | 'USER';
+
+type Restaurant = {
+  id: string;
+  name: string;
+  description: string;
+}
+
+type Review = {
+  id: string;
+  rating: number;
+  dateOfVisit: Date;
+  createdAt: Date;
+}
+
+type Comment = {
+  id: string;
+  updatedAt: Date;
+  text: string;
+}
 
 export interface PostLoginResult {
   user: Pick<User, 'id' | 'role' | 'username'>;

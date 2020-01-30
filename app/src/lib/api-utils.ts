@@ -1,4 +1,4 @@
-const url = process.env.REACT_APP_API_URL;
+const url = 'https://conner-novicki-toptal-api.herokuapp.com';
 
 export const makeRequest = (path: string, method: 'GET' | 'POST' | 'DELETE' | 'PUT', body?: any) => {
   const token = localStorage.getItem('token');

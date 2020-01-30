@@ -1,7 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import bodyParser from 'body-parser'
 import express from 'express'
-import cors from 'cors'
 import postLogin from './operations/postLogin';
 import { handleOperation } from './utils';
 import postUser from './operations/postUser';
@@ -22,6 +21,7 @@ import putReview from './operations/putReview';
 import putRestaurant from './operations/putRestaurant';
 import putComment from './operations/putComment';
 import { Server } from 'net';
+import cors from 'cors';
 
 export default async function (prisma: PrismaClient): Promise<Server> {
   const app = express()
@@ -31,7 +31,7 @@ export default async function (prisma: PrismaClient): Promise<Server> {
   app.use(cors({
     credentials: true,
     origin: ['http://localhost:3000', 'https://conner-novicki-toptal-app.herokuapp.com']
-  }));
+  }))
 
   app.post('/login', async (req: express.Request, res: express.Response) => {
     handleOperation(
@@ -40,7 +40,6 @@ export default async function (prisma: PrismaClient): Promise<Server> {
     )
   });
 
-  // create user
   app.post('/user', async (req: express.Request, res: express.Response) => {
     handleOperation(
       () => postUser({ body: req.body, prisma, req }),
@@ -160,9 +159,11 @@ export default async function (prisma: PrismaClient): Promise<Server> {
     )
   })
 
-  const server = app.listen(4000, () =>
+  const port = process.env.PORT || 4000;
+
+  const server = app.listen(port, () =>
     console.log(
-      '🚀 Server ready at: http://localhost:4000',
+      `🚀 Server ready at: http://localhost:${port}`,
     ),
   );
 

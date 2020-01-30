@@ -32,7 +32,10 @@ export const handleOperation = async (
     const response = await operation();
     res.json(response);
   } catch (e) {
-    console.log('error: ', e)
+    if (process.env.NODE_ENV === 'test') {
+      console.log('error: ', e)
+    }
+
     if (e && e.message && e.message.includes('Not authorized')) {
       res.sendStatus(401);
     } else {
