@@ -12,7 +12,20 @@ interface FormProps {
 }
 
 interface Props {
-  review: any;
+  review: {
+    id: string;
+    rating: number;
+    author: {
+      username: string;
+    }
+    comments: {
+      text: string;
+      updatedAt: Date;
+      author: {
+        username: string;
+      }
+    }[]
+  };
   restaurantId: string;
   form: FormComponentProps<FormProps>['form']
 }
@@ -30,7 +43,10 @@ const ReviewDisplay = ({ review, restaurantId, form }: Props) => {
       const { reply } = values;
 
       apiClient.createCommentOnReview({ comment: reply }, review.id)
-        .then(() => apiClient.fetchRestaurantById({ id: restaurantId }))
+        .then(() => {
+          apiClient.fetchUserPendingReviews();
+          apiClient.fetchRestaurantById({ id: restaurantId })
+        })
         .catch(err => message.error(`Error creating comment: ${err.message}`))
     })
   }

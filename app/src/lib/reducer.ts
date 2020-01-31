@@ -4,7 +4,8 @@ import {
   GetUserRestaurantsResult,
   GetRestaurantsResult,
   GetUserResult,
-  GetAllUsersResult
+  GetAllUsersResult,
+  GetUserPendingReviews
 } from '../../generated/restTypes';
 
 export interface Action<TData> {
@@ -17,7 +18,8 @@ export interface State {
   restaurants: GetRestaurantsResult;
   user: GetUserResult;
   allUsers: GetAllUsersResult;
-  restaurantsById: { [key: string]: GetRestaurantByIdResult }
+  restaurantsById: { [key: string]: GetRestaurantByIdResult };
+  userPendingReviews: GetUserPendingReviews;
 }
 
 export const initialState: State = {
@@ -26,6 +28,7 @@ export const initialState: State = {
   user: null,
   allUsers: [],
   restaurantsById: {},
+  userPendingReviews: [],
 };
 
 export default (state: State = initialState, action: Action<any>): State => {
@@ -55,6 +58,9 @@ export default (state: State = initialState, action: Action<any>): State => {
     }
     case ActionTypes.CLEAR_STORE: {
       return initialState;
+    }
+    case ActionTypes.SAVE_USER_PENDING_REVIEWS: {
+      return { ...state, userPendingReviews: action.payload };
     }
     default:
       return state;

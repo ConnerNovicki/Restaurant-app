@@ -142,3 +142,23 @@ export type PutReviewArgs = Pick<Review, 'dateOfVisit' | 'rating'>;
 export type PutCommentArgs = Pick<Comment, 'text'>;
 
 export type PutResult = { id: string; };
+
+export type GetUserPendingReviews = {
+  restaurant: {
+    name: string;
+    id: string;
+  };
+  id: string;
+  rating: number;
+  dateOfVisit: Date;
+  author: {
+    username: string;
+  }
+  comments: {
+    id: string;
+    author: { username: string };
+    text: string;
+    createdAt: Date;
+    updatedAt: Date;
+  }[]
+}[]

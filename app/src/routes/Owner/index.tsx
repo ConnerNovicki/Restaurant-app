@@ -5,19 +5,22 @@ import AddRestaurant from './AddRestaurant';
 import useApiClient from '../../lib/useApiClient';
 import RestaurantView from '../../components/RestaurantView'
 import Block from '../../components/Block';
+import PendingReviewsDisplay from './PendingReviewsDisplay';
 
 const Owner = () => {
   const apiClient = useApiClient();
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const { state: { userRestaurants, user } } = useContext<IStoreContext>(StoreContext);
+  const { state: { userRestaurants, user, userPendingReviews } } = useContext<IStoreContext>(StoreContext);
 
   useEffect(() => {
     apiClient.fetchUserRestaurants();
+    apiClient.fetchUserPendingReviews();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <Block>
+      <PendingReviewsDisplay pendingReviews={userPendingReviews} />
       <div>
         <h2>Welcome Back {user.username}</h2>
         {!!userRestaurants.length

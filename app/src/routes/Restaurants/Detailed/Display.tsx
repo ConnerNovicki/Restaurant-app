@@ -51,6 +51,7 @@ const RestaurantDetailedDisplay = ({ restaurantDetailed }: Props) => {
             <h2>Recent Reviews: </h2>
             <div className="all-reviews-grid">
               {filteredReviewsByRating.map(review => (
+                // @ts-ignore
                 <ReviewDisplay review={review} restaurantId={restaurantDetailed.id} />
               ))}
             </div>

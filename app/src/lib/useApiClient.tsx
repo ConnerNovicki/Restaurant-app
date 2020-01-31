@@ -27,6 +27,7 @@ import {
   PutRestaurantArgs,
   PutCommentArgs,
   PutReviewArgs,
+  GetUserPendingReviews,
 } from '../../generated/restTypes';
 
 export default () => {
@@ -67,6 +68,13 @@ export default () => {
       return makeRequest('/user/restaurants', 'GET')
         .then((res) => {
           dispatch(Actions.saveUserRestaurants(res))
+          return res;
+        })
+    },
+    fetchUserPendingReviews: (): Promise<GetUserPendingReviews> => {
+      return makeRequest('/user/pendingReviews', 'GET')
+        .then((res) => {
+          dispatch(Actions.saveUserPendingReviews(res))
           return res;
         })
     },

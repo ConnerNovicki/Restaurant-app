@@ -27,9 +27,9 @@ const CreateAccount = ({ setIsCreating, form }: Props) => {
   }
 
   return (
-    <div>
-      <Form onSubmit={handleOnSubmit}>
-        <h2>Create an account</h2>
+    <>
+      <h2 className="header">Create an account</h2>
+      <Form onSubmit={handleOnSubmit} className="form">
         <WrappedFormItem
           form={form}
           fieldName="role"
@@ -56,7 +56,7 @@ const CreateAccount = ({ setIsCreating, form }: Props) => {
           <Button type="link" onClick={setIsCreating}>Back to login</Button>
         </Row>
       </Form>
-    </div>
+    </>
   )
 }
 

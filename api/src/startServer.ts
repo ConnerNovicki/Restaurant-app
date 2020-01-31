@@ -35,6 +35,7 @@ import {
   PutCommentArgs,
   PostReviewCommentArgs
 } from '../Shared/restTypes';
+import getUserPendingReviews from './operations/getUserPendingReviews';
 
 export default async function (prisma: PrismaClient): Promise<Server> {
   const app = express()
@@ -100,6 +101,13 @@ export default async function (prisma: PrismaClient): Promise<Server> {
       res,
     )
   });
+
+  app.get('/user/pendingReviews', async (req: express.Request, res: express.Response) => {
+    handleOperation(
+      () => getUserPendingReviews({ body: req.body, prisma, req }),
+      res,
+    )
+  })
 
   app.get('/restaurants', async (req: express.Request, res: express.Response) => {
     handleOperation(

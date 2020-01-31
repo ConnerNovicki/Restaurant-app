@@ -2,6 +2,7 @@ import { Action } from './reducer';
 import { GetRestaurantByIdResult, GetAllUsersResult } from '../../generated/restTypes';
 
 export enum ActionTypes {
+  SAVE_USER_PENDING_REVIEWS = 'save-user-pending-reviews',
   SAVE_USER_RESTAURANTS = 'save-user-restaurants',
   SAVE_RESTAURANTS = 'save-restaurants',
   SAVE_USER = 'save-user',
@@ -11,6 +12,10 @@ export enum ActionTypes {
 }
 
 export const Actions = {
+  saveUserPendingReviews: (data): Action<any> => ({
+    type: ActionTypes.SAVE_USER_PENDING_REVIEWS,
+    payload: data,
+  }),
   saveUserRestaurants: (data): Action<any> => ({
     type: ActionTypes.SAVE_USER_RESTAURANTS,
     payload: data,

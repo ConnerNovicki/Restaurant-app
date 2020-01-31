@@ -9,8 +9,24 @@
   align-items: center;
 
   .card {
-    max-width: 50rem;
+    border-radius: 15px;
+    max-width: 45rem;
     width: 100%;
+
+    .form {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      padding: 0 5rem;
+
+      @media screen and (max-width: 600px) {
+        padding: 0 1rem;
+      }
+    }
+
+    .header {
+      text-align: center;
+    }
 
     .footer-container {
       padding: 1rem 0;

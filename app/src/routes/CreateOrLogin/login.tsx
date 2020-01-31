@@ -26,9 +26,9 @@ const Login = ({ setIsCreating, form }: Props) => {
   }
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
-      <h2>Welcome to the Restaurants App!</h2>
-      <Form onSubmit={handleOnSubmit}>
+    <>
+      <h2 className="header">Welcome to the Restaurants App!</h2>
+      <Form onSubmit={handleOnSubmit} className="form">
         <WrappedFormItem
           form={form}
           fieldName="username"
@@ -48,7 +48,7 @@ const Login = ({ setIsCreating, form }: Props) => {
           <Button type="link" onClick={setIsCreating}>Don't have an account?</Button>
         </Row>
       </Form>
-    </div>
+    </>
   )
 }
 
