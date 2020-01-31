@@ -1,5 +1,4 @@
-// const url = 'https://conner-novicki-toptal-api.herokuapp.com';
-const url = 'http://localhost:4000'
+const url = 'https://conner-novicki-toptal-api.herokuapp.com';
 
 export const makeRequest = (path: string, method: 'GET' | 'POST' | 'DELETE' | 'PUT', body?: any) => {
   const token = localStorage.getItem('token');
