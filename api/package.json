@@ -38,7 +38,7 @@
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "env-cmd": "^10.0.1",
-    "mocha": "^7.0.1",
+    "mocha": "^10.2.0",
     "ts-node-dev": "^1.0.0-pre.44",
     "typescript": "3.7.5"
   }
